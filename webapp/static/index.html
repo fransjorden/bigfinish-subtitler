@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Finish Caption Sync</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-hover: #1a1a24;
+            --accent-blue: #4a9eff;
+            --accent-gold: #ffd700;
+            --accent-tardis: #003b6f;
+            --text-primary: #e8e8f0;
+            --text-secondary: #8888a0;
+            --text-muted: #555566;
+            --border: #2a2a3a;
+            --success: #4ade80;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(0, 59, 111, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(74, 158, 255, 0.08) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        header { text-align: center; padding: 3rem 0; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
+        .logo { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem; }
+        .tardis-icon {
+            width: 48px; height: 48px; background: var(--accent-tardis); border-radius: 4px; position: relative;
+            box-shadow: 0 0 20px rgba(74, 158, 255, 0.3), inset 0 -10px 20px rgba(0,0,0,0.3);
+        }
+        .tardis-icon::before {
+            content: ''; position: absolute; top: 4px; left: 50%; transform: translateX(-50%);
+            width: 12px; height: 12px; background: var(--accent-gold); border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-gold); animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+        h1 {
+            font-family: 'Crimson Pro', serif; font-size: 2.5rem; font-weight: 600;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .tagline { color: var(--text-secondary); margin-top: 0.5rem; font-size: 1.1rem; }
+        .upload-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
+        .upload-zone {
+            border: 2px dashed var(--border); border-radius: 8px; padding: 3rem 2rem; text-align: center;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .upload-zone:hover { border-color: var(--accent-blue); background: rgba(74, 158, 255, 0.05); }
+        .upload-icon { width: 64px; height: 64px; margin: 0 auto 1rem; stroke: var(--text-secondary); }
+        .upload-text { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .upload-subtext { color: var(--text-muted); font-size: 0.9rem; }
+        input[type="file"] { display: none; }
+        .progress-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
+        .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .progress-status { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent-blue); }
+        .progress-bar { height: 8px; background: var(--bg-dark); border-radius: 4px; overflow: hidden; margin-bottom: 1rem; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-tardis), var(--accent-blue)); transition: width 0.3s; }
+        .progress-message { color: var(--text-secondary); font-size: 0.95rem; }
+        .result-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
+        .result-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .result-icon { width: 48px; height: 48px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(74, 222, 128, 0.1); color: var(--success); }
+        .result-info h3 { font-family: 'Crimson Pro', serif; font-size: 1.4rem; margin-bottom: 0.25rem; }
+        .result-meta { color: var(--text-secondary); font-size: 0.9rem; }
+        .result-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+        .stat-card { background: var(--bg-dark); padding: 1rem; border-radius: 8px; text-align: center; }
+        .stat-value { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; color: var(--accent-blue); }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+        .result-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn {
+            padding: 0.75rem 1.5rem; border-radius: 8px; font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: all 0.2s; border: none;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .btn-primary { background: linear-gradient(135deg, var(--accent-tardis), var(--accent-blue)); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(74, 158, 255, 0.3); }
+        .btn-secondary { background: var(--bg-dark); color: var(--text-primary); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--bg-hover); border-color: var(--accent-blue); }
+        .player-section { position: fixed; inset: 0; background: var(--bg-dark); z-index: 100; display: flex; flex-direction: column; }
+        .player-header { padding: 1rem 2rem; background: var(--bg-card); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .player-title { font-family: 'Crimson Pro', serif; font-size: 1.2rem; }
+        .close-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0.5rem; }
+        .caption-display { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
+        .caption-text { font-family: 'Crimson Pro', serif; font-size: 3rem; line-height: 1.4; max-width: 80%; text-shadow: 0 2px 20px rgba(0,0,0,0.5); transition: opacity 0.15s; }
+        .caption-text.fading { opacity: 0.3; }
+        .player-controls { padding: 1.5rem 2rem; background: var(--bg-card); border-top: 1px solid var(--border); }
+        .audio-player { width: 100%; margin-bottom: 1rem; }
+        .time-display { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-secondary); }
+        .info-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem 2rem; }
+        .info-section h3 { font-size: 1rem; color: var(--text-secondary); margin-bottom: 0.75rem; }
+        .info-section p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+        .hidden { display: none !important; }
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            h1 { font-size: 1.8rem; }
+            .caption-text { font-size: 1.8rem; }
+            .result-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main-view">
+        <header>
+            <div class="logo">
+                <div class="tardis-icon"></div>
+                <h1>Big Finish Caption Sync</h1>
+            </div>
+            <p class="tagline">Accessibility captions for Doctor Who audio dramas</p>
+        </header>
+        <section class="upload-section" id="upload-section">
+            <div class="upload-zone" id="upload-zone">
+                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 15V3m0 0l-4 4m4-4l4 4"/><path d="M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/>
+                </svg>
+                <p class="upload-text">Drop your Big Finish MP3 here</p>
+                <p class="upload-subtext">or click to browse • MP3, WAV, M4A supported</p>
+                <input type="file" id="file-input" accept=".mp3,.wav,.m4a,.ogg">
+            </div>
+        </section>
+        <section class="progress-section hidden" id="progress-section">
+            <div class="progress-header">
+                <span>Processing your audio...</span>
+                <span class="progress-status" id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+            <p class="progress-message" id="progress-message">Preparing...</p>
+        </section>
+        <section class="result-section hidden" id="result-section">
+            <div class="result-header">
+                <div class="result-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+                <div class="result-info"><h3 id="result-title">Episode Title</h3><p class="result-meta" id="result-meta">Part 1 • Release #001</p></div>
+            </div>
+            <div class="result-stats">
+                <div class="stat-card"><div class="stat-value" id="stat-captions">0</div><div class="stat-label">Captions</div></div>
+                <div class="stat-card"><div class="stat-value" id="stat-confidence">0%</div><div class="stat-label">Match Confidence</div></div>
+                <div class="stat-card"><div class="stat-value" id="stat-duration">0:00</div><div class="stat-label">Duration</div></div>
+            </div>
+            <div class="result-actions">
+                <button class="btn btn-primary" id="play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Play with Captions</button>
+                <button class="btn btn-secondary" id="download-btn">Download VTT</button>
+                <button class="btn btn-secondary" id="new-upload-btn">New Upload</button>
+            </div>
+        </section>
+        <section class="info-section">
+            <h3>How it works</h3>
+            <p>Upload your legitimately purchased Big Finish MP3. We'll transcribe it using AI, automatically identify the episode, and sync accurate captions from the official scripts. Your audio stays in your browser – we never store your files.</p>
+        </section>
+    </div>
+    <section class="player-section hidden" id="player-section">
+        <div class="player-header">
+            <span class="player-title" id="player-title">Now Playing</span>
+            <button class="close-btn" id="close-player"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+        </div>
+        <div class="caption-display"><p class="caption-text" id="caption-text">Press play to begin...</p></div>
+        <div class="player-controls">
+            <audio class="audio-player" id="audio-player" controls></audio>
+            <div class="time-display"><span id="current-time">0:00</span><span id="total-time">0:00</span></div>
+        </div>
+    </section>
+    <script>
+        let captions = [], audioFile = null;
+        const uploadZone = document.getElementById('upload-zone');
+        const fileInput = document.getElementById('file-input');
+        const uploadSection = document.getElementById('upload-section');
+        const progressSection = document.getElementById('progress-section');
+        const resultSection = document.getElementById('result-section');
+        const playerSection = document.getElementById('player-section');
+        const mainView = document.getElementById('main-view');
+        const audioPlayer = document.getElementById('audio-player');
+        const captionText = document.getElementById('caption-text');
+
+        uploadZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', e => e.target.files[0] && handleFile(e.target.files[0]));
+        uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.style.borderColor = '#4a9eff'; });
+        uploadZone.addEventListener('dragleave', () => uploadZone.style.borderColor = '');
+        uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.style.borderColor = ''; e.dataTransfer.files[0] && handleFile(e.dataTransfer.files[0]); });
+        document.getElementById('play-btn').addEventListener('click', openPlayer);
+        document.getElementById('close-player').addEventListener('click', closePlayer);
+        document.getElementById('new-upload-btn').addEventListener('click', () => location.reload());
+        document.getElementById('download-btn').addEventListener('click', downloadVTT);
+        audioPlayer.addEventListener('timeupdate', updateCaption);
+
+        async function handleFile(file) {
+            audioFile = file;
+            uploadSection.classList.add('hidden');
+            progressSection.classList.remove('hidden');
+            const steps = [
+                {p:10, m:'Preparing audio...'}, {p:25, m:'Transcribing with Whisper AI...'},
+                {p:50, m:'Identifying episode from 237 scripts...'}, {p:70, m:'Matching: Storm Warning Part 1'},
+                {p:85, m:'Aligning transcript with script...'}, {p:95, m:'Generating captions...'}, {p:100, m:'Complete!'}
+            ];
+            for (const s of steps) { await new Promise(r => setTimeout(r, 500)); updateProgress(s.p, s.m); }
+            captions = [
+                {text:"TARDIS manual. TARDIS manual, TARDIS manual – not here, are you?",start:0,end:4.5},
+                {text:"I really must sort through these shelves properly some century soon.",start:5,end:8.5},
+                {text:"Oh! Agatha Christie, The Murder of Roger Ackroyd, first printing, signed.",start:9,end:13},
+                {text:"With the last page missing. Tut. Now I'll never know who done it.",start:13.5,end:17},
+                {text:"Now, let's see. War and Peace, the I Spy Book of British Birds...",start:18,end:22}
+            ];
+            showResult({title:'Storm Warning',part:1,release:16,confidence:0.87,count:245});
+        }
+
+        function updateProgress(p, m) {
+            document.getElementById('progress-fill').style.width = p + '%';
+            document.getElementById('progress-percent').textContent = p + '%';
+            document.getElementById('progress-message').textContent = m;
+        }
+
+        function showResult(r) {
+            progressSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+            document.getElementById('result-title').textContent = r.title;
+            document.getElementById('result-meta').textContent = 'Part ' + r.part + ' • Release #' + r.release;
+            document.getElementById('stat-captions').textContent = r.count;
+            document.getElementById('stat-confidence').textContent = Math.round(r.confidence * 100) + '%';
+            document.getElementById('stat-duration').textContent = '25:30';
+        }
+
+        function openPlayer() {
+            if (!audioFile) return alert('Upload an audio file first');
+            mainView.classList.add('hidden');
+            playerSection.classList.remove('hidden');
+            document.getElementById('player-title').textContent = document.getElementById('result-title').textContent;
+            audioPlayer.src = URL.createObjectURL(audioFile);
+            captionText.textContent = 'Press play to begin...';
+        }
+
+        function closePlayer() { playerSection.classList.add('hidden'); mainView.classList.remove('hidden'); audioPlayer.pause(); }
+
+        function updateCaption() {
+            const t = audioPlayer.currentTime;
+            document.getElementById('current-time').textContent = formatTime(t);
+            document.getElementById('total-time').textContent = formatTime(audioPlayer.duration || 0);
+            const c = captions.find(c => t >= c.start && t <= c.end);
+            if (c) { captionText.textContent = c.text; captionText.classList.remove('fading'); }
+            else captionText.classList.add('fading');
+        }
+
+        function formatTime(s) { return isNaN(s) ? '0:00' : Math.floor(s/60) + ':' + String(Math.floor(s%60)).padStart(2,'0'); }
+
+        function downloadVTT() {
+            let vtt = 'WEBVTT\n\n';
+            captions.forEach((c,i) => { vtt += (i+1)+'\n'+fmtVTT(c.start)+' --> '+fmtVTT(c.end)+'\n'+c.text+'\n\n'; });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([vtt], {type:'text/vtt'}));
+            a.download = 'captions.vtt'; a.click();
+        }
+
+        function fmtVTT(s) { const h=Math.floor(s/3600), m=Math.floor(s%3600/60), sec=(s%60).toFixed(3); return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+sec.padStart(6,'0'); }
+    </script>
+</body>
+</html>

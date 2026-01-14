@@ -1,0 +1,1651 @@
+{
+  "id": "097-the-vanity-box",
+  "release_number": 97,
+  "title": "The Vanity Box",
+  "author": "Paul Magrs",
+  "filename": "097b The Vanity Box_djvu.txt",
+  "format_type": "B",
+  "preamble_end_line": 7,
+  "parts": [
+    {
+      "part_number": 1,
+      "start_line": 7,
+      "end_line": 715,
+      "elements": [
+        {
+          "type": "dialogue",
+          "text": "And that’s new as well. Since when was there a Police Box on the corner of Warren Street.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "I’m sure it weren’t there before, Nesta.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Well, happen I won’t be sad to see a few more bobbies on t’beat round here. It’s getting proper rough.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "What about Renee Murgatroyd when she had that do under the arches? He only got away with half a crown, a bag of toffees and some booties she’d knitted for their Samantha.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "I think it’s the thrill of it, in’t it, with some of them.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh don’t. It makes me shiver just thinking of it. Some daft hooligan jumping out of t’dark.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "You’d be in no danger. And I can fettle anyone. Get a shift on, Winnie. I’ve got a raging thirst on here. I’m buying.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Wonders'll never cease. Would you say that Police Box was always there?",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "I shouldn’t be at all surprised. They let their dogs wet up against anything these days.",
+          "character": "NESTA"
+        },
+        {
+          "type": "direction",
+          "text": "Pub door opens and closes, Tardis door opens.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh. Somewhere fabulous, indeed. When you said the Sixties, I was thinking of Ready Steady Go, Carnaby Street. You know, somewhere groovy.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Groovy?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Yeah.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "It’s 1965. I believe that’s groovy enough for anyone.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "It looks like LS Lowry.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Perceptive. This is Salford.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh.",
+          "character": "MEL"
+        },
+        {
+          "type": "direction",
+          "text": "Tardis door closes.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "I don’t think anything’s swinging much, yet, around this way.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh well, I could do with a quieter time after all the excitement recently. Self-sacrifice and all. Really Doctor, I know you’re fond of melodrama, but you really had me believing back there that you had",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Fed myself to the Wishing Beast. Well, I did, didn’t 1? But luckily it all worked out for the best.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "I’m glad we got away, anyway. And now I want a rest. I’m starving, actually.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ah. Corner shop, end of the street. They will sell you what I believe is known locally as a barm.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, all right. And you'll be...?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "There. The Sailor’s End. In the public bar.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "direction",
+          "text": "Shop bell.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "Get that door closed behind you. It’s perishing out.",
+          "character": "LILY"
+        },
+        {
+          "type": "direction",
+          "text": "Door closes.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "Sorry about that.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Can I help? I was just about to shut up shop.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, I was just after a... what was it the Doctor called it?",
+          "character": "MEL"
+        },
+        {
+          "type": "direction",
+          "text": "Door opens and closes.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "(gasps) As I live and breathe. Bessy Tiplington, what on Earth have you gone and done to yourself?",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Now then, chuck, be honest. What'd you think?",
+          "character": "BESSY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Here, let me see. Do us a twirl.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ta dah.",
+          "character": "BESSY"
+        },
+        {
+          "type": "dialogue",
+          "text": "It’s amazing.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "I can hardly get me head round it, can you?",
+          "character": "BESSY"
+        },
+        {
+          "type": "dialogue",
+          "text": "It’s like magic. Where’ve you been?",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Who’s this? I’ve not seen you round here.",
+          "character": "BESSY"
+        },
+        {
+          "type": "dialogue",
+          "text": "I’m Mel. I’m just visiting. You look lovely, by the way, your hair and everything. But tell me, why is it like magic?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "(sotto) Southerner.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Mmm. Funny accent she’s got. And what are you wearing, luvvie? You’re a bit Day-Glo, aren’t you?",
+          "character": "BESSY"
+        },
+        {
+          "type": "dialogue",
+          "text": "(sotto) It must be what’s all the thing in the South. What’s them woolly efforts round her ankles?",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Any road, we were talking about me, weren’t we? And I wouldn't say this little transformation of mine was magical exactly. I'd say it was more like a blessed miracle, wouldn’t you, Lily?",
+          "character": "BESSY"
+        },
+        {
+          "type": "dialogue",
+          "text": "I would, Bessy.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "But I don’t understand. Why?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Tell her, Bessy.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Would you believe I were 56?",
+          "character": "BESSY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Hello. Hello? Oh, I was never very good at catching the barmaid’s eye. Oh, come on. Hello!",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Excuse me, pushing past. He knocked the back of me chair with his tartan derriere.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "This is the snug. We don’t have men in the snug. This is the sole preserve of ladies like us.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, excuse me, ladies. The saloon bar is jam-packed. I can’t get any attention.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "You do surprise me, got up like that.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "What do you think you look like?",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Am I bothering you?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Frankly, yes.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Then I shall be out of your hairnet forthwith.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, hark at Lord Huncan Duncan over there.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Hello? I’d like a pint, please.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Anyway, as I was saying, Winnie. I was hanging right over me back fence to get a better view. Well, you know how high that fence is, but I had to see what was going on in that yard.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "The yard at the back of the salon?",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "That’s right. You know how me back juts right out over there, and well, since that new bloke’s took over the salon there’s been some right rum goings on.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "The work of the Devil, you were saying before.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Aye, well, I would go that far, I would, yes.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Look, I’m dying of thirst over here.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Yes sir? As you can see, the whole pub is heaving.",
+          "character": "BARMAID"
+        },
+        {
+          "type": "dialogue",
+          "text": "I'd like a pint of blackcurrant squash, please. Water, not soda.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "(sotto) Southerner.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Southerner?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Aye, that’s what you sound like to me.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, don’t talk to him, Nesta. I think he’s a funny fella. He’s been let out of somewhere, I reckon.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "You were saying something about the work of the Devil?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Happen I was.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "He'll be something to do with the salon, I reckon. Friends with that fancy bloke who runs the place.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Could be.",
+          "character": "NESTA"
+        },
+        {
+          "type": "direction",
+          "text": "Door opens and closes.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "Eee, will you look at that!",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "What? I can’t see. Who is it coming in?",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "That common Bessy Tiplington, swanning about in all her glad-rags.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, what’s new about that?",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "You know how she usually looks. Like mutton dressed as lamb.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "I do.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Now she just looks like lamb dressed as lamb.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "You what?",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "She’s been to that Vanity Box, hasn’t she. I reckon that’s what she’s done. My God.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "She’s been where?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Doctor.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Mel! There you are. Allow me to introduce my very good friends",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "No friends of yours, chum. Who’s this now? Who does she think she’s dressed like?",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Suddenly everyone’s in the snug.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Doctor, there’s something weird going on.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, I just wanted a nice sit-down. What is it, Mel?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "At this place called the Vanity Box, across the street.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "That’s what I was saying. My back yard juts over its back yard, and it’s like I was telling me friend Winnie here. There’s some funny things going on that hairdressers. It didn’t used to be like that, back when Renee had the run of it. But now? Oh, it’s very peculiar like.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "But I don’t see what it’s got to do with these strangers, Nesta.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "They look to me like they’d Know all about funny goings-on.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, indeed. Mel and I are often up to our eyes in funny peculiar.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "I thought so.",
+          "character": "NESTA"
+        },
+        {
+          "type": "direction",
+          "text": "Strong Mancunian accent trying to be a bit French.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "That’s it, ladies. We'll soon have you looking absolutely marvellous. Just sit back and relax and let your cares fade away. Have a violet cream, Mrs Hunsworth. Here, I'll turn that dryer down. We don’t want you frizzling up, do we? (laughs, door opens and closes) Oh, a new lady to see to. ‘Allo, my dear. Good evening.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "I’ve heard tell that you do a good job here.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Here at the Vanity Box, we strive for perfection. I, Monsieur Coiffure, like to send my ladies home ecstatic.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ecstatic, is it? Well, I’m Lily Cook, by the way, from the corner shop. Pleased to meet you.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Enchanté.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "I was a regular here when Renee ran the shop.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ah yes, Renee Scallop. Very tragic, what became of her.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "It was indeed. I was going to keep right away from this place, you know, out of respect for poor dead and decapitated Renee, tossed off the viaduct like that like a bag of rags, but I saw what you did to Bessy Tiplington this afternoon.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ah, Miss Tiplington was a particular triumph.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "And I just couldn’t resist. Here, let me get me headscarf off. What do you think?",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Madame?",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "How’s about lopping twenty years me, eh? Do you think you could manage it?",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Madame, nothing would be easier here at the Vanity Box.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "I want exactly the same as Bessy had. I'll show her. She’s not the only glamour puss round here. In my day, I could turn a few heads.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Indeed. Bon. Park yourself here, madame. We'll give you exactly what Bessy had. But you must sit here, in this special alcove, behind this curtain.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "In private, eh? Must be a very secret process.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Exclusive, madame, is how I like to think of it.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Lovely.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Bon. And now if madame is comfy, I shall bring out the miraculous tool that will put a smile back on madame’s face.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, go on, then.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "Mrs Cook, I give you, voila! The Vanity Box.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Come along, Mel. Don’t twist anything walking on the cobbles.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, what an unfriendly bunch they were in that pub.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, that’s just their manner. Ah look, there we are. That excessively chintzy establishment with the lit-up front. Monsieur Coiffure indeed.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Do you really think there’s something untoward going on?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Nobody can regress people like that. This was more than a make-over. You saw the way people reacted to Bessy Tiplington’s entrance into the Sailor’s End.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Mmm, I did. I was right behind.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "They were, to use a local term, gob-smacked.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "You're right. What do you reckon? Some primitive form of time travel?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "I don’t know. First we’d better check out this place. This curious salon.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "direction",
+          "text": "Scream.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "That was from inside.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Come on!",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "direction",
+          "text": "Women talking all at once, cutting tool noises.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "Do calm down, ladies. You’ve got me all of a lather. Cease this kerfuffle at one, I tell you.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "What’s going on here?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "direction",
+          "text": "Feet running out, door closes.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "Please, ladies, come back.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "What’s all the screaming about?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Nothing I can’t handle, my dear sir. Now...",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "direction",
+          "text": "Noise stops.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, what a nasty little provincial place this is.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "And what a horrible man you are. We only came in here to see if we could help. We heard screams and all sorts.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "All in the service of creating beauty, one must suffer.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Where is she? What’s happening to her? Bring her out at once.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "direction",
+          "text": "Curtain drawn.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "Ah yes, Madame Cook. Time we fetched you out of the Vanity Box.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "It’s a box on her head.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Get back at once. Did I invite you into my glamourous annexe?",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Get back, Mel. Let me see. Good God, what have you done to her?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ah, but just look what I have done to her with my miraculous machine. Stand up, Lily Cook. Come and have a look at yourself.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "(gasps) Wow. Monsieur Coiffure, I feel... wonderful.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "I have taken a full twenty five years from you. Are you satisfied, ma petite choufleur?",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "But I never looked like this, even back then, Monsieur Coiffure. You are a genius.",
+          "character": "LILY"
+        },
+        {
+          "type": "dialogue",
+          "text": "I know, I know. (continues in background)",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "What do you think, Doctor?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "I’m not sure I’d have gone with that hairdo but yes, I think she looks very nice.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "I meant, do you still think it’s funny business?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Of course. I want to get a closer look at that machine.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ah ah! Ah, ah, ah, ah, ah. Hands off. Nobody touches the Vanity Box apart from me. Now, be off with you, you strange pair. Go on, scram.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Aye, well, Doctor, you think right.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "It stands to reason, doesn't it?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "You have a look about you of a clever fella.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "I took one look at you back in the snug at the Sailor’s End and I thought if anyone knows everything that’s going on, it's Nesta Trubshaw. She might be a bit abrupt in her manner...",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Aye, that I can be.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "But she’s the eyes and ears and very heart of this place. So we’ve come round yours to ask you, Mrs Trubshaw",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Nesta, please, Doctor.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ah. Whether you know anything about the wicked goings-on at the salon.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "I'll pour t'tea. Well, I don’t hold with unnecessary titivation, Doctor. It’s nowt but ungodly self-display and indulgence. There’s nothing wrong with being clean and smart, but some of these women - I’m not naming names — they’re getting obsessed with what they look like. It’s unhealthy. Now you're telling me that even Lily from t’corner shop’s had herself done.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "We were there in the salon when her new face was revealed.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "New face. What would anyone want a new face for?",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Indeed.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "But I don’t understand what this jumped up Teasy-Weasy’s doing to ‘em. What’s all this about a box over their heads?",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "It’s a glowing, hovering cube thing that he sticks over their heads and it changes them forever.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Like magic?",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Except it’s not.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "It’s like very advanced alien technology, I’m afraid, here in Salford in the mid 1960s.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Well, you live and learn You’re quite sure, Doctor?",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "I am indeed, Nesta. And to me, it looks like something alive.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Alive?",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "I need to examine that object. What's it doing? Is it taking over these ladies’ minds? And if so, what for? Is it creating an army of provincial dolly-birds? And what’s the point of that?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "I don’t think you’re making much sense, Doctor. Alien wotsit? Do you mean Russia, or outer space, or what? Have a chocolate bourbon. I get these in, but I can’t have them, not with my teeth.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Nesta, will you help me? I’ve got to get into that salon, under cover, and get a closer look.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Doctor, I could go in instead of you.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "I don’t think anyone would believe you need a make-over, Mel. And besides, I think it’s going to be chillingly dangerous.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Actually, I can manage a bourbon if I dunk it in me tea. I’ll freshen the pot. Now, tell me how I can help you, Doctor. I’m not happy about this poodle parlour on our doorstep.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "I want you to drag me up.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Welcome, my dear. I am Monsieur Coiffure.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "(higher pitch, speaking proper like) Yes, I know who you are, luvvie, and I know what you do, too. I’ve come for t’special treatment.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh yes?",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Aye, and I don’t just want a rinse and a set. I don’t just want a new do, I want the whole shebang.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Shebang?",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "The full shenanigans.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Shenanigans?",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "I want what Bessy had, and t’same as Lily.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Do you indeed?",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "I want regressing. I want to be a slip of a girl again.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "If madame would step this way, then, beyond the nylon curtain.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Now, do you hear me, Monsieur Coiffure? I want to be same girl I was back on VE night, when two Yanks helped me to climb the statue of Victoria in Piccadilly Gardens.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Two Yanks, you say? Hmm. Yes, I’m sure that can be arranged. Siddown here.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ooo, what’s that thing?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Do not be alarmed, madame. This is the Vanity Box",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "But it’s floating through t’air by itself.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "There’s nothing to be alarmed about. Let it settle over your head, madame, and it will do its miraculous work.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, I’m not so sure now. I’m not sure I want to (muffled)",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "I'd better turn the settings up. You, my girl, are going to take some doing.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ooo. Oh dear, I don’t think I like this very much.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Welcome to my lair. You have come here to shed your surplus time. Please relax. Let the years roll back and back and back. (continues under...)",
+          "character": "VANITY BOX"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, what a strange sensation. It’s like being licked all over, by a dragon’s tongue.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Don’t resist it, my dear. I will take away the years you don’t want. You will go back and back and back.",
+          "character": "VANITY BOX"
+        },
+        {
+          "type": "dialogue",
+          "text": "(normal) It’s you, isn’t it?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "I beg your pardon?",
+          "character": "VANITY BOX"
+        },
+        {
+          "type": "dialogue",
+          "text": "The Wishing Beast.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Back and back and back through the years.",
+          "character": "VANITY BOX"
+        },
+        {
+          "type": "dialogue",
+          "text": "You don’t remember me, do you? Ah well, you might get more than you bargained for, Wishing Beast.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Back through the... centuries? Back, back. How long have you lived? How far do you go back?",
+          "character": "VANITY BOX"
+        },
+        {
+          "type": "dialogue",
+          "text": "A long, long time. Unimaginable centuries, Wishing Beast. I go right back. (laughs)",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "(panicking) Back, back, back.",
+          "character": "VANITY BOX"
+        },
+        {
+          "type": "dialogue",
+          "text": "What’s going on in here? You can hear all that palaver t’other side of t’viaduct.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Doctor?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "I don’t know. Zis has never happened before.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "There’s smoke coming out of that box.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "What have you done to him?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Him?",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "That’s the Doctor you’ve got under there.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ze Vanity Box has gone haywire. I can’t even switch it off.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "I thought I would fettle yer, with all my long-lived years.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "You are destroying my mind.",
+          "character": "VANITY BOX"
+        },
+        {
+          "type": "dialogue",
+          "text": "But how are you here? How did you ever get to be here, in Salford? I don’t understand.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Stop me. Leave me alone. Argh.",
+          "character": "VANITY BOX"
+        },
+        {
+          "type": "direction",
+          "text": "Explosion.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "Doctor!",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "That’s torn it.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "He’s gone very still.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "At least the smoke’s stopped coming out.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Take it off him. You’re responsible for this. If the Doctor is hurt in any way...",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "What's he doing, coming into my salon dressed as an old woman anyway?",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Where did you get that thing?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "He’s destroyed it. My precious Vanity Box. It was all I had. It was gonna make my fortune. It gave me its promise.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Well, that’s really gone and torn it.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Doctor. Doctor, wake up. Please.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "It was gonna make me famous. I was nothing before. I was just nowt. But the Vanity Box came to me. It said it had magical powers, and it did. That I’d be a star, far and wide.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Shut up. What about the Doctor?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Now it’s all ruined. I’m back to where I was. I’m back in the same place I was the day I found the miraculous box floating down the Ship Canal.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh! Oh, I’m back. I’m alive. Oh Mel, I’ve had the most dreadful make-over.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "But you're the same. You haven’t changed.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "It hasn’t knocked any years off you, Doctor.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Thank goodness. I’ve seen inside that thing. I’ve seen what it does. It’s a parasite, living off the hopes and fears and experiences of living human beings. That’s what it’s doing when it regresses people. It’s leeching their psychic energy away.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "But it works, doesn’t it? It makes them look fabulous.",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "That’s evil. You make it sound as if it takes away their very souls.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "It takes years off them, literally. It shortens their lives for them.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "But it makes them look fantastic during the time they have. What’s wrong with that?",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "It’s wicked, pure and simple. You’re taking their lives off them in huge great chunks. Luckily it didn’t work on me. Time Lord biology rather confused it, I think.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "What are you all talking about? This is right over my head.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "And I'll tell you something else, Mel. When I got inside the Vanity Box, it spoke to me. And I knew who it was.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Is it dead? Have you killed it?",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Give me that back. It’s far too dangerous to stay here.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "He says he found it floating down the Ship Canal.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Yeah. Come on, back to the Tardis. I don’t know how it got into the Canal, but it doesn’t belong here in this time and place. It’s from another dimension. It would do untold damage if it was allowed to remain here.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "direction",
+          "text": "Door closes.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "No! Bring it back! It promised me the world would be at my feet!",
+          "character": "COIFFURE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Get up, you great jessie. You'll just have to get by without it, won’t you. I never held with titivation in tfirst place. I knew it were unnatural.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "We have to despatch it, send it somewhere far away. Somewhere no one will ever go.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Are you sure you’re okay, Doctor? You went through an horrific ordeal with that thing on your head.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "I’m perfectly fine, Mel. I know what I’m doing. Now, we’re ready.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Now?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "I’m going to make a little tear in the very fabric of Time and Space, so to speak.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "direction",
+          "text": "Whumph whoosh.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "That’s amazing, Doctor. It really is a rip in the air, hanging open. But where’s it going?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Out little friend here is going to find out when I push him through.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Don’t do this, I beg you. Don’t throw me out there. Don't!",
+          "character": "VANITY BOX"
+        },
+        {
+          "type": "dialogue",
+          "text": "It’s time to go. I’ve no choice. Off you pop.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "direction",
+          "text": "Fading sound of the Vanity Box / Wishing Beast’s cry, then the whooshing stops.",
+          "character": null
+        },
+        {
+          "type": "dialogue",
+          "text": "All right?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "I think so.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Look, we can track it through the Vortex on the scanner.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Is that it?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Eh heh. It should come out somewhere very remote. Somewhere...",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Like that?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Mmn, yes. It’s following our recent flightpath through Time and Space.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Back there, that asteroid in the distant past?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "That's right.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Couldn’t you send it back where it came from?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "I touched its mind. I don’t know where it came from. It’s a very ancient powerful entity from somewhere... beyond. It would have wreaked havoc on Earth.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Mmm. I see that. But I also saw where you sent it.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "An asteroid, a long time ago. So long ago it forgot all about me.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "It was the Wishing Beast, wasn’t it?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Yes, Mel. That’s precisely who it was.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "And it’ll wait there, on that benighted rock, waiting for a certain spaceship to land, waiting for Daniel and his sisters to arrive and bring it back to life.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Will it?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "You could have stopped it. You could have prevented all of that suffering.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Could I? No, I don’t think so. That’s like thinking you can roll back the years, like you can suddenly get young again overnight. It’s all wishful thinking, Mel.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "And what’s so wrong with that?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Nothing. It’s just very human. But you’ve got to start seeing the bigger picture.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Look, they’ve kept seats for us.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Good evening, ladies.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Mine’s a milk stout, since it’s your shout, Doctor.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Eee, Nesta, it’s a long time since you’ve welcomed strangers in the snug.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Well, there you go, Winnie. I’ve had my horizons broadened this week.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Have you now?",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "I’ve seen things you’d never have guessed at.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ooo, I’m sorry to have missed ‘em. Here, that Southern fella’s not getting served. I'll get them in this time.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "You do that, Winnie. They could do with a reward, them two.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "I'll get these.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, thank you.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "What a pleasant evening. It’s not often Mel and I pop into the pub. We don’t have a local, do we?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Where is it exactly that you two come from, any road?",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ey up, what’s going on now?",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "Bessy Tiplington’s just come in, with Lily from corner shop.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "What's all the fuss about?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ooo, look. They’ve gone back to normal.",
+          "character": "WINNIE"
+        },
+        {
+          "type": "dialogue",
+          "text": "The make-over’s worn off.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Eee, what a shame. They'll be so embarrassed, the way they were flaunting themselves round the shop. Oh, they look older than ever now, the pair of them.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "You can’t escape Time.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "That you can’t, Doctor. That you can't.",
+          "character": "NESTA"
+        },
+        {
+          "type": "dialogue",
+          "text": "What was that, Doctor?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Oh, nothing, Mel. Just more wishful thinking. Ask Winnie to get more pork scratchings as well, would you? Tell me, Mel. If the Wishing Beast had been real.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Yes?",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "What would you have wished for, hmm?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Well...",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Mmm?",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "I was going to wish that things could go on just as they are.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "Ah.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "For as long as we could manage. I love all this. Our lives, racketing about the galaxy.",
+          "character": "MEL"
+        },
+        {
+          "type": "dialogue",
+          "text": "You’d have wished for more time.",
+          "character": "DOCTOR"
+        },
+        {
+          "type": "dialogue",
+          "text": "Yes, I would.",
+          "character": "MEL"
+        }
+      ],
+      "searchable_dialogue": "NESTA: And that’s new as well. Since when was there a Police Box on the corner of Warren Street.\nWINNIE: I’m sure it weren’t there before, Nesta.\nNESTA: Well, happen I won’t be sad to see a few more bobbies on t’beat round here. It’s getting proper rough.\nWINNIE: What about Renee Murgatroyd when she had that do under the arches? He only got away with half a crown, a bag of toffees and some booties she’d knitted for their Samantha.\nNESTA: I think it’s the thrill of it, in’t it, with some of them.\nWINNIE: Oh don’t. It makes me shiver just thinking of it. Some daft hooligan jumping out of t’dark.\nNESTA: You’d be in no danger. And I can fettle anyone. Get a shift on, Winnie. I’ve got a raging thirst on here. I’m buying.\nWINNIE: Wonders'll never cease. Would you say that Police Box was always there?\nNESTA: I shouldn’t be at all surprised. They let their dogs wet up against anything these days.\nMEL: Oh. Somewhere fabulous, indeed. When you said the Sixties, I was thinking of Ready Steady Go, Carnaby Street. You know, somewhere groovy.\nDOCTOR: Groovy?\nMEL: Yeah.\nDOCTOR: It’s 1965. I believe that’s groovy enough for anyone.\nMEL: It looks like LS Lowry.\nDOCTOR: Perceptive. This is Salford.\nMEL: Oh.\nDOCTOR: I don’t think anything’s swinging much, yet, around this way.\nMEL: Oh well, I could do with a quieter time after all the excitement recently. Self-sacrifice and all. Really Doctor, I know you’re fond of melodrama, but you really had me believing back there that you had\nDOCTOR: Fed myself to the Wishing Beast. Well, I did, didn’t 1? But luckily it all worked out for the best.\nMEL: I’m glad we got away, anyway. And now I want a rest. I’m starving, actually.\nDOCTOR: Ah. Corner shop, end of the street. They will sell you what I believe is known locally as a barm.\nMEL: Oh, all right. And you'll be...?\nDOCTOR: There. The Sailor’s End. In the public bar.\nLILY: Get that door closed behind you. It’s perishing out.\nMEL: Sorry about that.\nLILY: Can I help? I was just about to shut up shop.\nMEL: Oh, I was just after a... what was it the Doctor called it?\nLILY: (gasps) As I live and breathe. Bessy Tiplington, what on Earth have you gone and done to yourself?\nBESSY: Now then, chuck, be honest. What'd you think?\nLILY: Here, let me see. Do us a twirl.\nBESSY: Ta dah.\nLILY: It’s amazing.\nBESSY: I can hardly get me head round it, can you?\nLILY: It’s like magic. Where’ve you been?\nBESSY: Who’s this? I’ve not seen you round here.\nMEL: I’m Mel. I’m just visiting. You look lovely, by the way, your hair and everything. But tell me, why is it like magic?\nLILY: (sotto) Southerner.\nBESSY: Mmm. Funny accent she’s got. And what are you wearing, luvvie? You’re a bit Day-Glo, aren’t you?\nLILY: (sotto) It must be what’s all the thing in the South. What’s them woolly efforts round her ankles?\nBESSY: Any road, we were talking about me, weren’t we? And I wouldn't say this little transformation of mine was magical exactly. I'd say it was more like a blessed miracle, wouldn’t you, Lily?\nLILY: I would, Bessy.\nMEL: But I don’t understand. Why?\nLILY: Tell her, Bessy.\nBESSY: Would you believe I were 56?\nDOCTOR: Hello. Hello? Oh, I was never very good at catching the barmaid’s eye. Oh, come on. Hello!\nWINNIE: Excuse me, pushing past. He knocked the back of me chair with his tartan derriere.\nNESTA: This is the snug. We don’t have men in the snug. This is the sole preserve of ladies like us.\nDOCTOR: Oh, excuse me, ladies. The saloon bar is jam-packed. I can’t get any attention.\nNESTA: You do surprise me, got up like that.\nWINNIE: What do you think you look like?\nDOCTOR: Am I bothering you?\nNESTA: Frankly, yes.\nDOCTOR: Then I shall be out of your hairnet forthwith.\nNESTA: Oh, hark at Lord Huncan Duncan over there.\nDOCTOR: Hello? I’d like a pint, please.\nNESTA: Anyway, as I was saying, Winnie. I was hanging right over me back fence to get a better view. Well, you know how high that fence is, but I had to see what was going on in that yard.\nWINNIE: The yard at the back of the salon?\nNESTA: That’s right. You know how me back juts right out over there, and well, since that new bloke’s took over the salon there’s been some right rum goings on.\nWINNIE: The work of the Devil, you were saying before.\nNESTA: Aye, well, I would go that far, I would, yes.\nDOCTOR: Look, I’m dying of thirst over here.\nBARMAID: Yes sir? As you can see, the whole pub is heaving.\nDOCTOR: I'd like a pint of blackcurrant squash, please. Water, not soda.\nNESTA: (sotto) Southerner.\nDOCTOR: Southerner?\nNESTA: Aye, that’s what you sound like to me.\nWINNIE: Oh, don’t talk to him, Nesta. I think he’s a funny fella. He’s been let out of somewhere, I reckon.\nDOCTOR: You were saying something about the work of the Devil?\nNESTA: Happen I was.\nWINNIE: He'll be something to do with the salon, I reckon. Friends with that fancy bloke who runs the place.\nNESTA: Could be.\nNESTA: Eee, will you look at that!\nWINNIE: What? I can’t see. Who is it coming in?\nNESTA: That common Bessy Tiplington, swanning about in all her glad-rags.\nWINNIE: Oh, what’s new about that?\nNESTA: You know how she usually looks. Like mutton dressed as lamb.\nWINNIE: I do.\nNESTA: Now she just looks like lamb dressed as lamb.\nWINNIE: You what?\nNESTA: She’s been to that Vanity Box, hasn’t she. I reckon that’s what she’s done. My God.\nDOCTOR: She’s been where?\nMEL: Doctor.\nDOCTOR: Mel! There you are. Allow me to introduce my very good friends\nNESTA: No friends of yours, chum. Who’s this now? Who does she think she’s dressed like?\nWINNIE: Suddenly everyone’s in the snug.\nMEL: Doctor, there’s something weird going on.\nDOCTOR: Oh, I just wanted a nice sit-down. What is it, Mel?\nMEL: At this place called the Vanity Box, across the street.\nNESTA: That’s what I was saying. My back yard juts over its back yard, and it’s like I was telling me friend Winnie here. There’s some funny things going on that hairdressers. It didn’t used to be like that, back when Renee had the run of it. But now? Oh, it’s very peculiar like.\nWINNIE: But I don’t see what it’s got to do with these strangers, Nesta.\nNESTA: They look to me like they’d Know all about funny goings-on.\nDOCTOR: Oh, indeed. Mel and I are often up to our eyes in funny peculiar.\nNESTA: I thought so.\nCOIFFURE: That’s it, ladies. We'll soon have you looking absolutely marvellous. Just sit back and relax and let your cares fade away. Have a violet cream, Mrs Hunsworth. Here, I'll turn that dryer down. We don’t want you frizzling up, do we? (laughs, door opens and closes) Oh, a new lady to see to. ‘Allo, my dear. Good evening.\nLILY: I’ve heard tell that you do a good job here.\nCOIFFURE: Here at the Vanity Box, we strive for perfection. I, Monsieur Coiffure, like to send my ladies home ecstatic.\nLILY: Ecstatic, is it? Well, I’m Lily Cook, by the way, from the corner shop. Pleased to meet you.\nCOIFFURE: Enchanté.\nLILY: I was a regular here when Renee ran the shop.\nCOIFFURE: Ah yes, Renee Scallop. Very tragic, what became of her.\nLILY: It was indeed. I was going to keep right away from this place, you know, out of respect for poor dead and decapitated Renee, tossed off the viaduct like that like a bag of rags, but I saw what you did to Bessy Tiplington this afternoon.\nCOIFFURE: Ah, Miss Tiplington was a particular triumph.\nLILY: And I just couldn’t resist. Here, let me get me headscarf off. What do you think?\nCOIFFURE: Madame?\nLILY: How’s about lopping twenty years me, eh? Do you think you could manage it?\nCOIFFURE: Madame, nothing would be easier here at the Vanity Box.\nLILY: I want exactly the same as Bessy had. I'll show her. She’s not the only glamour puss round here. In my day, I could turn a few heads.\nCOIFFURE: Indeed. Bon. Park yourself here, madame. We'll give you exactly what Bessy had. But you must sit here, in this special alcove, behind this curtain.\nLILY: In private, eh? Must be a very secret process.\nCOIFFURE: Exclusive, madame, is how I like to think of it.\nLILY: Lovely.\nCOIFFURE: Bon. And now if madame is comfy, I shall bring out the miraculous tool that will put a smile back on madame’s face.\nLILY: Oh, go on, then.\nCOIFFURE: Mrs Cook, I give you, voila! The Vanity Box.\nDOCTOR: Come along, Mel. Don’t twist anything walking on the cobbles.\nMEL: Oh, what an unfriendly bunch they were in that pub.\nDOCTOR: Oh, that’s just their manner. Ah look, there we are. That excessively chintzy establishment with the lit-up front. Monsieur Coiffure indeed.\nMEL: Do you really think there’s something untoward going on?\nDOCTOR: Nobody can regress people like that. This was more than a make-over. You saw the way people reacted to Bessy Tiplington’s entrance into the Sailor’s End.\nMEL: Mmm, I did. I was right behind.\nDOCTOR: They were, to use a local term, gob-smacked.\nMEL: You're right. What do you reckon? Some primitive form of time travel?\nDOCTOR: I don’t know. First we’d better check out this place. This curious salon.\nMEL: That was from inside.\nDOCTOR: Come on!\nCOIFFURE: Do calm down, ladies. You’ve got me all of a lather. Cease this kerfuffle at one, I tell you.\nDOCTOR: What’s going on here?\nCOIFFURE: Please, ladies, come back.\nDOCTOR: What’s all the screaming about?\nCOIFFURE: Nothing I can’t handle, my dear sir. Now...\nCOIFFURE: Oh, what a nasty little provincial place this is.\nMEL: And what a horrible man you are. We only came in here to see if we could help. We heard screams and all sorts.\nCOIFFURE: All in the service of creating beauty, one must suffer.\nDOCTOR: Where is she? What’s happening to her? Bring her out at once.\nCOIFFURE: Ah yes, Madame Cook. Time we fetched you out of the Vanity Box.\nMEL: It’s a box on her head.\nCOIFFURE: Get back at once. Did I invite you into my glamourous annexe?\nDOCTOR: Get back, Mel. Let me see. Good God, what have you done to her?\nCOIFFURE: Ah, but just look what I have done to her with my miraculous machine. Stand up, Lily Cook. Come and have a look at yourself.\nLILY: (gasps) Wow. Monsieur Coiffure, I feel... wonderful.\nCOIFFURE: I have taken a full twenty five years from you. Are you satisfied, ma petite choufleur?\nLILY: But I never looked like this, even back then, Monsieur Coiffure. You are a genius.\nCOIFFURE: I know, I know. (continues in background)\nMEL: What do you think, Doctor?\nDOCTOR: I’m not sure I’d have gone with that hairdo but yes, I think she looks very nice.\nMEL: I meant, do you still think it’s funny business?\nDOCTOR: Of course. I want to get a closer look at that machine.\nCOIFFURE: Ah ah! Ah, ah, ah, ah, ah. Hands off. Nobody touches the Vanity Box apart from me. Now, be off with you, you strange pair. Go on, scram.\nNESTA: Aye, well, Doctor, you think right.\nDOCTOR: It stands to reason, doesn't it?\nNESTA: You have a look about you of a clever fella.\nDOCTOR: I took one look at you back in the snug at the Sailor’s End and I thought if anyone knows everything that’s going on, it's Nesta Trubshaw. She might be a bit abrupt in her manner...\nNESTA: Aye, that I can be.\nDOCTOR: But she’s the eyes and ears and very heart of this place. So we’ve come round yours to ask you, Mrs Trubshaw\nNESTA: Nesta, please, Doctor.\nDOCTOR: Ah. Whether you know anything about the wicked goings-on at the salon.\nNESTA: I'll pour t'tea. Well, I don’t hold with unnecessary titivation, Doctor. It’s nowt but ungodly self-display and indulgence. There’s nothing wrong with being clean and smart, but some of these women - I’m not naming names — they’re getting obsessed with what they look like. It’s unhealthy. Now you're telling me that even Lily from t’corner shop’s had herself done.\nMEL: We were there in the salon when her new face was revealed.\nNESTA: New face. What would anyone want a new face for?\nDOCTOR: Indeed.\nNESTA: But I don’t understand what this jumped up Teasy-Weasy’s doing to ‘em. What’s all this about a box over their heads?\nDOCTOR: It’s a glowing, hovering cube thing that he sticks over their heads and it changes them forever.\nNESTA: Like magic?\nMEL: Except it’s not.\nDOCTOR: It’s like very advanced alien technology, I’m afraid, here in Salford in the mid 1960s.\nNESTA: Well, you live and learn You’re quite sure, Doctor?\nDOCTOR: I am indeed, Nesta. And to me, it looks like something alive.\nNESTA: Alive?\nDOCTOR: I need to examine that object. What's it doing? Is it taking over these ladies’ minds? And if so, what for? Is it creating an army of provincial dolly-birds? And what’s the point of that?\nNESTA: I don’t think you’re making much sense, Doctor. Alien wotsit? Do you mean Russia, or outer space, or what? Have a chocolate bourbon. I get these in, but I can’t have them, not with my teeth.\nDOCTOR: Nesta, will you help me? I’ve got to get into that salon, under cover, and get a closer look.\nMEL: Doctor, I could go in instead of you.\nDOCTOR: I don’t think anyone would believe you need a make-over, Mel. And besides, I think it’s going to be chillingly dangerous.\nNESTA: Actually, I can manage a bourbon if I dunk it in me tea. I’ll freshen the pot. Now, tell me how I can help you, Doctor. I’m not happy about this poodle parlour on our doorstep.\nDOCTOR: I want you to drag me up.\nCOIFFURE: Welcome, my dear. I am Monsieur Coiffure.\nDOCTOR: (higher pitch, speaking proper like) Yes, I know who you are, luvvie, and I know what you do, too. I’ve come for t’special treatment.\nCOIFFURE: Oh yes?\nDOCTOR: Aye, and I don’t just want a rinse and a set. I don’t just want a new do, I want the whole shebang.\nCOIFFURE: Shebang?\nDOCTOR: The full shenanigans.\nCOIFFURE: Shenanigans?\nDOCTOR: I want what Bessy had, and t’same as Lily.\nCOIFFURE: Do you indeed?\nDOCTOR: I want regressing. I want to be a slip of a girl again.\nCOIFFURE: If madame would step this way, then, beyond the nylon curtain.\nDOCTOR: Now, do you hear me, Monsieur Coiffure? I want to be same girl I was back on VE night, when two Yanks helped me to climb the statue of Victoria in Piccadilly Gardens.\nCOIFFURE: Two Yanks, you say? Hmm. Yes, I’m sure that can be arranged. Siddown here.\nDOCTOR: Ooo, what’s that thing?\nCOIFFURE: Do not be alarmed, madame. This is the Vanity Box\nDOCTOR: But it’s floating through t’air by itself.\nCOIFFURE: There’s nothing to be alarmed about. Let it settle over your head, madame, and it will do its miraculous work.\nDOCTOR: Oh, I’m not so sure now. I’m not sure I want to (muffled)\nCOIFFURE: I'd better turn the settings up. You, my girl, are going to take some doing.\nDOCTOR: Ooo. Oh dear, I don’t think I like this very much.\nVANITY BOX: Welcome to my lair. You have come here to shed your surplus time. Please relax. Let the years roll back and back and back. (continues under...)\nDOCTOR: Oh, what a strange sensation. It’s like being licked all over, by a dragon’s tongue.\nVANITY BOX: Don’t resist it, my dear. I will take away the years you don’t want. You will go back and back and back.\nDOCTOR: (normal) It’s you, isn’t it?\nVANITY BOX: I beg your pardon?\nDOCTOR: The Wishing Beast.\nVANITY BOX: Back and back and back through the years.\nDOCTOR: You don’t remember me, do you? Ah well, you might get more than you bargained for, Wishing Beast.\nVANITY BOX: Back through the... centuries? Back, back. How long have you lived? How far do you go back?\nDOCTOR: A long, long time. Unimaginable centuries, Wishing Beast. I go right back. (laughs)\nVANITY BOX: (panicking) Back, back, back.\nNESTA: What’s going on in here? You can hear all that palaver t’other side of t’viaduct.\nMEL: Doctor?\nCOIFFURE: I don’t know. Zis has never happened before.\nNESTA: There’s smoke coming out of that box.\nMEL: What have you done to him?\nCOIFFURE: Him?\nMEL: That’s the Doctor you’ve got under there.\nCOIFFURE: Ze Vanity Box has gone haywire. I can’t even switch it off.\nDOCTOR: I thought I would fettle yer, with all my long-lived years.\nVANITY BOX: You are destroying my mind.\nDOCTOR: But how are you here? How did you ever get to be here, in Salford? I don’t understand.\nVANITY BOX: Stop me. Leave me alone. Argh.\nMEL: Doctor!\nNESTA: That’s torn it.\nCOIFFURE: He’s gone very still.\nNESTA: At least the smoke’s stopped coming out.\nMEL: Take it off him. You’re responsible for this. If the Doctor is hurt in any way...\nCOIFFURE: What's he doing, coming into my salon dressed as an old woman anyway?\nMEL: Where did you get that thing?\nCOIFFURE: He’s destroyed it. My precious Vanity Box. It was all I had. It was gonna make my fortune. It gave me its promise.\nNESTA: Well, that’s really gone and torn it.\nMEL: Doctor. Doctor, wake up. Please.\nCOIFFURE: It was gonna make me famous. I was nothing before. I was just nowt. But the Vanity Box came to me. It said it had magical powers, and it did. That I’d be a star, far and wide.\nMEL: Shut up. What about the Doctor?\nCOIFFURE: Now it’s all ruined. I’m back to where I was. I’m back in the same place I was the day I found the miraculous box floating down the Ship Canal.\nDOCTOR: Oh! Oh, I’m back. I’m alive. Oh Mel, I’ve had the most dreadful make-over.\nMEL: But you're the same. You haven’t changed.\nNESTA: It hasn’t knocked any years off you, Doctor.\nDOCTOR: Thank goodness. I’ve seen inside that thing. I’ve seen what it does. It’s a parasite, living off the hopes and fears and experiences of living human beings. That’s what it’s doing when it regresses people. It’s leeching their psychic energy away.\nCOIFFURE: But it works, doesn’t it? It makes them look fabulous.\nMEL: That’s evil. You make it sound as if it takes away their very souls.\nDOCTOR: It takes years off them, literally. It shortens their lives for them.\nCOIFFURE: But it makes them look fantastic during the time they have. What’s wrong with that?\nDOCTOR: It’s wicked, pure and simple. You’re taking their lives off them in huge great chunks. Luckily it didn’t work on me. Time Lord biology rather confused it, I think.\nNESTA: What are you all talking about? This is right over my head.\nDOCTOR: And I'll tell you something else, Mel. When I got inside the Vanity Box, it spoke to me. And I knew who it was.\nCOIFFURE: Is it dead? Have you killed it?\nDOCTOR: Give me that back. It’s far too dangerous to stay here.\nMEL: He says he found it floating down the Ship Canal.\nDOCTOR: Yeah. Come on, back to the Tardis. I don’t know how it got into the Canal, but it doesn’t belong here in this time and place. It’s from another dimension. It would do untold damage if it was allowed to remain here.\nCOIFFURE: No! Bring it back! It promised me the world would be at my feet!\nNESTA: Get up, you great jessie. You'll just have to get by without it, won’t you. I never held with titivation in tfirst place. I knew it were unnatural.\nDOCTOR: We have to despatch it, send it somewhere far away. Somewhere no one will ever go.\nMEL: Are you sure you’re okay, Doctor? You went through an horrific ordeal with that thing on your head.\nDOCTOR: I’m perfectly fine, Mel. I know what I’m doing. Now, we’re ready.\nMEL: Now?\nDOCTOR: I’m going to make a little tear in the very fabric of Time and Space, so to speak.\nMEL: That’s amazing, Doctor. It really is a rip in the air, hanging open. But where’s it going?\nDOCTOR: Out little friend here is going to find out when I push him through.\nVANITY BOX: Don’t do this, I beg you. Don’t throw me out there. Don't!\nDOCTOR: It’s time to go. I’ve no choice. Off you pop.\nDOCTOR: All right?\nMEL: I think so.\nDOCTOR: Look, we can track it through the Vortex on the scanner.\nMEL: Is that it?\nDOCTOR: Eh heh. It should come out somewhere very remote. Somewhere...\nMEL: Like that?\nDOCTOR: Mmn, yes. It’s following our recent flightpath through Time and Space.\nMEL: Back there, that asteroid in the distant past?\nDOCTOR: That's right.\nMEL: Couldn’t you send it back where it came from?\nDOCTOR: I touched its mind. I don’t know where it came from. It’s a very ancient powerful entity from somewhere... beyond. It would have wreaked havoc on Earth.\nMEL: Mmm. I see that. But I also saw where you sent it.\nDOCTOR: An asteroid, a long time ago. So long ago it forgot all about me.\nMEL: It was the Wishing Beast, wasn’t it?\nDOCTOR: Yes, Mel. That’s precisely who it was.\nMEL: And it’ll wait there, on that benighted rock, waiting for a certain spaceship to land, waiting for Daniel and his sisters to arrive and bring it back to life.\nDOCTOR: Will it?\nMEL: You could have stopped it. You could have prevented all of that suffering.\nDOCTOR: Could I? No, I don’t think so. That’s like thinking you can roll back the years, like you can suddenly get young again overnight. It’s all wishful thinking, Mel.\nMEL: And what’s so wrong with that?\nDOCTOR: Nothing. It’s just very human. But you’ve got to start seeing the bigger picture.\nMEL: Look, they’ve kept seats for us.\nDOCTOR: Good evening, ladies.\nNESTA: Mine’s a milk stout, since it’s your shout, Doctor.\nWINNIE: Eee, Nesta, it’s a long time since you’ve welcomed strangers in the snug.\nNESTA: Well, there you go, Winnie. I’ve had my horizons broadened this week.\nWINNIE: Have you now?\nNESTA: I’ve seen things you’d never have guessed at.\nWINNIE: Ooo, I’m sorry to have missed ‘em. Here, that Southern fella’s not getting served. I'll get them in this time.\nNESTA: You do that, Winnie. They could do with a reward, them two.\nWINNIE: I'll get these.\nMEL: Oh, thank you.\nDOCTOR: What a pleasant evening. It’s not often Mel and I pop into the pub. We don’t have a local, do we?\nNESTA: Where is it exactly that you two come from, any road?\nWINNIE: Ey up, what’s going on now?\nNESTA: Bessy Tiplington’s just come in, with Lily from corner shop.\nDOCTOR: What's all the fuss about?\nWINNIE: Ooo, look. They’ve gone back to normal.\nMEL: The make-over’s worn off.\nNESTA: Eee, what a shame. They'll be so embarrassed, the way they were flaunting themselves round the shop. Oh, they look older than ever now, the pair of them.\nDOCTOR: You can’t escape Time.\nNESTA: That you can’t, Doctor. That you can't.\nMEL: What was that, Doctor?\nDOCTOR: Oh, nothing, Mel. Just more wishful thinking. Ask Winnie to get more pork scratchings as well, would you? Tell me, Mel. If the Wishing Beast had been real.\nMEL: Yes?\nDOCTOR: What would you have wished for, hmm?\nMEL: Well...\nDOCTOR: Mmm?\nMEL: I was going to wish that things could go on just as they are.\nDOCTOR: Ah.\nMEL: For as long as we could manage. I love all this. Our lives, racketing about the galaxy.\nDOCTOR: You’d have wished for more time.\nMEL: Yes, I would."
+    }
+  ],
+  "cast_list": [],
+  "parse_warnings": []
+}
