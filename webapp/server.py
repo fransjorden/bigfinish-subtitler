@@ -6,6 +6,7 @@ FastAPI-based server for the caption sync web application.
 """
 
 import os
+import sys
 import json
 import tempfile
 import shutil
@@ -13,6 +14,9 @@ from pathlib import Path
 from typing import Optional
 from datetime import datetime
 import uuid
+
+# Add parent directory to path for module imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
@@ -40,11 +44,13 @@ app.add_middleware(
 )
 
 # Configuration - set these via environment variables
-SCRIPTS_DIR = os.environ.get("SCRIPTS_DIR", "./parsed_scripts")
-SEARCH_INDEX = os.environ.get("SEARCH_INDEX", "./parsed_scripts/search_index.json")
+# Default paths are relative to project root (parent of webapp/)
+PROJECT_ROOT = Path(__file__).parent.parent
+SCRIPTS_DIR = os.environ.get("SCRIPTS_DIR", str(PROJECT_ROOT / "parsed_scripts"))
+SEARCH_INDEX = os.environ.get("SEARCH_INDEX", str(PROJECT_ROOT / "parsed_scripts" / "search_index.json"))
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-UPLOAD_DIR = os.environ.get("UPLOAD_DIR", "./uploads")
-OUTPUT_DIR = os.environ.get("OUTPUT_DIR", "./outputs")
+UPLOAD_DIR = os.environ.get("UPLOAD_DIR", str(PROJECT_ROOT / "uploads"))
+OUTPUT_DIR = os.environ.get("OUTPUT_DIR", str(PROJECT_ROOT / "outputs"))
 
 # Ensure directories exist
 Path(UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
@@ -375,8 +381,8 @@ async def process_manual_job(job_id: str):
         job['result'] = {'error': str(e)}
 
 
-# Mount static files for frontend
-# app.mount("/", StaticFiles(directory="webapp/static", html=True), name="static")
+# Mount static files for frontend (must be last, after API routes)
+app.mount("/", StaticFiles(directory=Path(__file__).parent / "static", html=True), name="static")
 
 
 if __name__ == "__main__":

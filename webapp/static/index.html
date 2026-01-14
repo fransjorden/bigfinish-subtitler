@@ -174,7 +174,7 @@
         </div>
     </section>
     <script>
-        let captions = [], audioFile = null;
+        let captions = [], audioFile = null, currentJobId = null, jobResult = null;
         const uploadZone = document.getElementById('upload-zone');
         const fileInput = document.getElementById('file-input');
         const uploadSection = document.getElementById('upload-section');
@@ -200,20 +200,73 @@
             audioFile = file;
             uploadSection.classList.add('hidden');
             progressSection.classList.remove('hidden');
-            const steps = [
-                {p:10, m:'Preparing audio...'}, {p:25, m:'Transcribing with Whisper AI...'},
-                {p:50, m:'Identifying episode from 237 scripts...'}, {p:70, m:'Matching: Storm Warning Part 1'},
-                {p:85, m:'Aligning transcript with script...'}, {p:95, m:'Generating captions...'}, {p:100, m:'Complete!'}
-            ];
-            for (const s of steps) { await new Promise(r => setTimeout(r, 500)); updateProgress(s.p, s.m); }
-            captions = [
-                {text:"TARDIS manual. TARDIS manual, TARDIS manual – not here, are you?",start:0,end:4.5},
-                {text:"I really must sort through these shelves properly some century soon.",start:5,end:8.5},
-                {text:"Oh! Agatha Christie, The Murder of Roger Ackroyd, first printing, signed.",start:9,end:13},
-                {text:"With the last page missing. Tut. Now I'll never know who done it.",start:13.5,end:17},
-                {text:"Now, let's see. War and Peace, the I Spy Book of British Birds...",start:18,end:22}
-            ];
-            showResult({title:'Storm Warning',part:1,release:16,confidence:0.87,count:245});
+            updateProgress(5, 'Uploading audio file...');
+
+            try {
+                // Upload file to server
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const uploadRes = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!uploadRes.ok) {
+                    const err = await uploadRes.json();
+                    throw new Error(err.detail || 'Upload failed');
+                }
+
+                const { job_id } = await uploadRes.json();
+                currentJobId = job_id;
+
+                // Poll for job status
+                await pollJobStatus(job_id);
+
+            } catch (err) {
+                showError(err.message);
+            }
+        }
+
+        async function pollJobStatus(jobId) {
+            while (true) {
+                const res = await fetch(`/api/job/${jobId}`);
+                if (!res.ok) throw new Error('Failed to get job status');
+
+                const job = await res.json();
+                updateProgress(job.progress, job.message);
+
+                if (job.status === 'completed') {
+                    jobResult = job.result;
+                    // Load captions for player
+                    await loadCaptions(jobId);
+                    showResult({
+                        title: job.result.episode_title,
+                        part: job.result.part_number,
+                        release: job.result.release_number,
+                        confidence: job.result.match_confidence,
+                        count: job.result.captions_count
+                    });
+                    return;
+                } else if (job.status === 'failed') {
+                    throw new Error(job.result?.error || job.message);
+                }
+
+                // Wait before polling again
+                await new Promise(r => setTimeout(r, 1000));
+            }
+        }
+
+        async function loadCaptions(jobId) {
+            const res = await fetch(`/api/captions/${jobId}`);
+            if (res.ok) {
+                const data = await res.json();
+                captions = data.captions.map(c => ({
+                    text: c.text,
+                    start: c.start,
+                    end: c.end
+                }));
+            }
         }
 
         function updateProgress(p, m) {
@@ -222,14 +275,24 @@
             document.getElementById('progress-message').textContent = m;
         }
 
+        function showError(message) {
+            progressSection.classList.add('hidden');
+            uploadSection.classList.remove('hidden');
+            alert('Error: ' + message);
+        }
+
         function showResult(r) {
             progressSection.classList.add('hidden');
             resultSection.classList.remove('hidden');
             document.getElementById('result-title').textContent = r.title;
-            document.getElementById('result-meta').textContent = 'Part ' + r.part + ' • Release #' + r.release;
+            document.getElementById('result-meta').textContent = 'Part ' + r.part + ' • Release #' + String(r.release).padStart(3, '0');
             document.getElementById('stat-captions').textContent = r.count;
             document.getElementById('stat-confidence').textContent = Math.round(r.confidence * 100) + '%';
-            document.getElementById('stat-duration').textContent = '25:30';
+            // Calculate duration from captions
+            if (captions.length > 0) {
+                const duration = captions[captions.length - 1].end;
+                document.getElementById('stat-duration').textContent = formatTime(duration);
+            }
         }
 
         function openPlayer() {
@@ -255,11 +318,17 @@
         function formatTime(s) { return isNaN(s) ? '0:00' : Math.floor(s/60) + ':' + String(Math.floor(s%60)).padStart(2,'0'); }
 
         function downloadVTT() {
-            let vtt = 'WEBVTT\n\n';
-            captions.forEach((c,i) => { vtt += (i+1)+'\n'+fmtVTT(c.start)+' --> '+fmtVTT(c.end)+'\n'+c.text+'\n\n'; });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(new Blob([vtt], {type:'text/vtt'}));
-            a.download = 'captions.vtt'; a.click();
+            if (jobResult && jobResult.webvtt_url) {
+                // Download from server
+                window.location.href = jobResult.webvtt_url;
+            } else {
+                // Fallback: generate from captions
+                let vtt = 'WEBVTT\n\n';
+                captions.forEach((c,i) => { vtt += (i+1)+'\n'+fmtVTT(c.start)+' --> '+fmtVTT(c.end)+'\n'+c.text+'\n\n'; });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(new Blob([vtt], {type:'text/vtt'}));
+                a.download = 'captions.vtt'; a.click();
+            }
         }
 
         function fmtVTT(s) { const h=Math.floor(s/3600), m=Math.floor(s%3600/60), sec=(s%60).toFixed(3); return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+sec.padStart(6,'0'); }
