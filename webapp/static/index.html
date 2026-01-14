@@ -96,9 +96,10 @@
         .player-header { padding: 1rem 2rem; background: var(--bg-card); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
         .player-title { font-family: 'Crimson Pro', serif; font-size: 1.2rem; }
         .close-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0.5rem; }
-        .caption-display { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
+        .caption-display { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
+        .speaker-name { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; min-height: 1.5rem; transition: opacity 0.15s; }
         .caption-text { font-family: 'Crimson Pro', serif; font-size: 3rem; line-height: 1.4; max-width: 80%; text-shadow: 0 2px 20px rgba(0,0,0,0.5); transition: opacity 0.15s; }
-        .caption-text.fading { opacity: 0.3; }
+        .caption-text.fading, .speaker-name.fading { opacity: 0.3; }
         .player-controls { padding: 1.5rem 2rem; background: var(--bg-card); border-top: 1px solid var(--border); }
         .audio-player { width: 100%; margin-bottom: 1rem; }
         .time-display { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-secondary); }
@@ -167,7 +168,10 @@
             <span class="player-title" id="player-title">Now Playing</span>
             <button class="close-btn" id="close-player"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
         </div>
-        <div class="caption-display"><p class="caption-text" id="caption-text">Press play to begin...</p></div>
+        <div class="caption-display">
+            <p class="speaker-name" id="speaker-name"></p>
+            <p class="caption-text" id="caption-text">Press play to begin...</p>
+        </div>
         <div class="player-controls">
             <audio class="audio-player" id="audio-player" controls></audio>
             <div class="time-display"><span id="current-time">0:00</span><span id="total-time">0:00</span></div>
@@ -200,25 +204,18 @@
             audioFile = file;
             uploadSection.classList.add('hidden');
             progressSection.classList.remove('hidden');
-            updateProgress(5, 'Uploading audio file...');
+            updateProgress(0, `Uploading ${file.name}...`, 'upload');
 
             try {
-                // Upload file to server
+                // Upload file with progress tracking
                 const formData = new FormData();
                 formData.append('file', file);
 
-                const uploadRes = await fetch('/api/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (!uploadRes.ok) {
-                    const err = await uploadRes.json();
-                    throw new Error(err.detail || 'Upload failed');
-                }
-
-                const { job_id } = await uploadRes.json();
+                const job_id = await uploadWithProgress(formData);
                 currentJobId = job_id;
+
+                // Show transition to processing
+                updateProgress(0, 'Starting transcription...', 'process');
 
                 // Poll for job status
                 await pollJobStatus(job_id);
@@ -228,13 +225,52 @@
             }
         }
 
+        function uploadWithProgress(formData) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const pct = Math.round((e.loaded / e.total) * 100);
+                        updateProgress(pct, `Uploading... ${pct}% (${formatBytes(e.loaded)} / ${formatBytes(e.total)})`, 'upload');
+                    }
+                });
+
+                xhr.addEventListener('load', () => {
+                    if (xhr.status === 200) {
+                        const data = JSON.parse(xhr.responseText);
+                        resolve(data.job_id);
+                    } else {
+                        try {
+                            const err = JSON.parse(xhr.responseText);
+                            reject(new Error(err.detail || 'Upload failed'));
+                        } catch {
+                            reject(new Error('Upload failed'));
+                        }
+                    }
+                });
+
+                xhr.addEventListener('error', () => reject(new Error('Upload failed - network error')));
+                xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')));
+
+                xhr.open('POST', '/api/upload');
+                xhr.send(formData);
+            });
+        }
+
+        function formatBytes(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+        }
+
         async function pollJobStatus(jobId) {
             while (true) {
                 const res = await fetch(`/api/job/${jobId}`);
                 if (!res.ok) throw new Error('Failed to get job status');
 
                 const job = await res.json();
-                updateProgress(job.progress, job.message);
+                updateProgress(job.progress, job.message, 'process');
 
                 if (job.status === 'completed') {
                     jobResult = job.result;
@@ -261,18 +297,30 @@
             const res = await fetch(`/api/captions/${jobId}`);
             if (res.ok) {
                 const data = await res.json();
-                captions = data.captions.map(c => ({
-                    text: c.text,
-                    start: c.start,
-                    end: c.end
-                }));
+                captions = data.captions.map(c => {
+                    // Extract speaker from text if it has "SPEAKER: text" format
+                    let speaker = c.speaker || '';
+                    let text = c.text;
+                    // Remove speaker prefix from text if present
+                    if (speaker && text.startsWith(speaker + ':')) {
+                        text = text.substring(speaker.length + 1).trim();
+                    }
+                    return { text, speaker, start: c.start, end: c.end };
+                });
             }
         }
 
-        function updateProgress(p, m) {
+        function updateProgress(p, m, phase = 'upload') {
             document.getElementById('progress-fill').style.width = p + '%';
             document.getElementById('progress-percent').textContent = p + '%';
             document.getElementById('progress-message').textContent = m;
+            // Update header based on phase
+            const header = document.querySelector('.progress-header span:first-child');
+            if (phase === 'upload') {
+                header.textContent = 'Uploading your audio...';
+            } else {
+                header.textContent = 'Processing your audio...';
+            }
         }
 
         function showError(message) {
@@ -301,6 +349,7 @@
             playerSection.classList.remove('hidden');
             document.getElementById('player-title').textContent = document.getElementById('result-title').textContent;
             audioPlayer.src = URL.createObjectURL(audioFile);
+            document.getElementById('speaker-name').textContent = '';
             captionText.textContent = 'Press play to begin...';
         }
 
@@ -310,9 +359,17 @@
             const t = audioPlayer.currentTime;
             document.getElementById('current-time').textContent = formatTime(t);
             document.getElementById('total-time').textContent = formatTime(audioPlayer.duration || 0);
+            const speakerEl = document.getElementById('speaker-name');
             const c = captions.find(c => t >= c.start && t <= c.end);
-            if (c) { captionText.textContent = c.text; captionText.classList.remove('fading'); }
-            else captionText.classList.add('fading');
+            if (c) {
+                speakerEl.textContent = c.speaker || '';
+                captionText.textContent = c.text;
+                captionText.classList.remove('fading');
+                speakerEl.classList.remove('fading');
+            } else {
+                captionText.classList.add('fading');
+                speakerEl.classList.add('fading');
+            }
         }
 
         function formatTime(s) { return isNaN(s) ? '0:00' : Math.floor(s/60) + ':' + String(Math.floor(s%60)).padStart(2,'0'); }

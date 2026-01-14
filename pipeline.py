@@ -25,7 +25,13 @@ from transcription_service import (
     TranscriptionResult
 )
 from episode_matcher import match_episode, get_script_part_text, MatchResult
-from alignment import align_transcript_to_script, export_to_webvtt, export_to_json, AlignmentResult
+from alignment import (
+    align_transcript_to_script,
+    align_transcript_to_script_elements,
+    export_to_webvtt,
+    export_to_json,
+    AlignmentResult
+)
 
 
 @dataclass
@@ -74,32 +80,49 @@ class CaptionSyncPipeline:
         if not Path(search_index_path).exists():
             raise ValueError(f"Search index not found: {search_index_path}")
     
-    def process_audio(self, 
+    def process_audio(self,
                       audio_path: str,
                       output_dir: str,
                       manual_episode: Optional[str] = None,
-                      manual_part: Optional[int] = None) -> ProcessingResult:
+                      manual_part: Optional[int] = None,
+                      progress_callback: Optional[callable] = None) -> ProcessingResult:
         """
         Process an audio file and generate captions.
-        
+
         Args:
             audio_path: Path to the MP3 file
             output_dir: Directory to save output files
             manual_episode: Override auto-detection with specific script_id
             manual_part: Override auto-detection with specific part number
-            
+            progress_callback: Optional callback(progress: int, message: str) for updates
+
         Returns:
             ProcessingResult with status and output paths
         """
+        def update_progress(progress: int, message: str):
+            print(message)
+            if progress_callback:
+                progress_callback(progress, message)
+
         warnings = []
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
-        
+
         # Step 1: Transcribe audio
-        print("Step 1: Transcribing audio...")
+        update_progress(10, "Step 1: Transcribing audio...")
+
+        # Create a callback that scales transcription progress (0-100) to pipeline progress (10-30)
+        def transcription_progress(pct: float, msg: str):
+            scaled_progress = 10 + (pct / 100) * 20  # 10% to 30%
+            update_progress(int(scaled_progress), f"Step 1: {msg}")
+
         try:
             if self.use_local_whisper:
-                transcript = transcribe_with_local_whisper(audio_path, self.whisper_model)
+                transcript = transcribe_with_local_whisper(
+                    audio_path,
+                    self.whisper_model,
+                    progress_callback=transcription_progress
+                )
             elif self.openai_api_key:
                 transcript = transcribe_with_whisper_api(audio_path, self.openai_api_key)
             else:
@@ -126,16 +149,15 @@ class CaptionSyncPipeline:
                 json_path=None,
                 error=f"Transcription failed: {str(e)}"
             )
-        
-        print(f"   Transcribed {transcript.duration:.1f}s of audio")
-        print(f"   {len(transcript.segments)} segments")
-        
+
+        update_progress(30, f"Transcribed {transcript.duration:.1f}s of audio ({len(transcript.segments)} segments)")
+
         # Save transcript for debugging
         transcript_path = output_path / "transcript.json"
         save_transcript(transcript, str(transcript_path))
-        
+
         # Step 2: Identify episode
-        print("Step 2: Identifying episode...")
+        update_progress(40, "Step 2: Identifying episode...")
         
         if manual_episode and manual_part:
             # Use manual override
@@ -149,7 +171,7 @@ class CaptionSyncPipeline:
             # Try to get actual title
             script_path = self.scripts_dir / f"{manual_episode}.json"
             if script_path.exists():
-                with open(script_path) as f:
+                with open(script_path, encoding='utf-8') as f:
                     script_data = json.load(f)
                     match_result.title = script_data.get('title', manual_episode)
                     match_result.release_number = script_data.get('release_number', 0)
@@ -162,21 +184,16 @@ class CaptionSyncPipeline:
                 str(self.scripts_dir)
             )
         
-        print(f"   Matched: {match_result.title} Part {match_result.part_number}")
-        print(f"   Confidence: {match_result.confidence:.1%}")
-        
+        update_progress(50, f"Matched: {match_result.title} Part {match_result.part_number} ({match_result.confidence:.0%} confidence)")
+
         if match_result.confidence < 0.3:
             warnings.append(f"Low confidence match ({match_result.confidence:.1%}). Consider manual selection.")
-        
-        # Step 3: Get script text
-        print("Step 3: Loading script...")
-        script_dialogue = get_script_part_text(
-            match_result.script_id,
-            match_result.part_number,
-            str(self.scripts_dir)
-        )
-        
-        if not script_dialogue:
+
+        # Step 3: Get script elements (with speaker info)
+        update_progress(60, "Step 3: Loading script...")
+        script_path = self.scripts_dir / f"{match_result.script_id}.json"
+
+        if not script_path.exists():
             return ProcessingResult(
                 success=False,
                 episode_title=match_result.title,
@@ -186,13 +203,37 @@ class CaptionSyncPipeline:
                 captions_count=0,
                 webvtt_path=None,
                 json_path=None,
-                error=f"Could not load script for {match_result.script_id} part {match_result.part_number}"
+                error=f"Script file not found: {match_result.script_id}"
             )
-        
-        print(f"   Loaded {len(script_dialogue)} characters of dialogue")
-        
+
+        with open(script_path, encoding='utf-8') as f:
+            script_data = json.load(f)
+
+        # Find the right part and get elements
+        script_elements = None
+        for part in script_data.get('parts', []):
+            if part['part_number'] == match_result.part_number:
+                script_elements = part.get('elements', [])
+                break
+
+        if not script_elements:
+            return ProcessingResult(
+                success=False,
+                episode_title=match_result.title,
+                part_number=match_result.part_number,
+                release_number=match_result.release_number,
+                match_confidence=match_result.confidence,
+                captions_count=0,
+                webvtt_path=None,
+                json_path=None,
+                error=f"Could not load script elements for {match_result.script_id} part {match_result.part_number}"
+            )
+
+        dialogue_count = sum(1 for e in script_elements if e.get('type') == 'dialogue')
+        update_progress(65, f"Loaded {dialogue_count} dialogue elements")
+
         # Step 4: Align transcript to script
-        print("Step 4: Aligning transcript to script...")
+        update_progress(70, "Step 4: Aligning transcript to script...")
         
         # Convert transcript to dict format for alignment
         transcript_dict = {
@@ -210,17 +251,15 @@ class CaptionSyncPipeline:
             ]
         }
         
-        alignment = align_transcript_to_script(transcript_dict, script_dialogue)
-        
-        print(f"   Created {len(alignment.captions)} captions")
-        print(f"   Script coverage: {alignment.script_coverage:.1%}")
-        print(f"   Average confidence: {alignment.average_confidence:.1%}")
-        
+        alignment = align_transcript_to_script_elements(transcript_dict, script_elements)
+
+        update_progress(85, f"Created {len(alignment.captions)} captions ({alignment.script_coverage:.0%} coverage)")
+
         if alignment.script_coverage < 0.3:
             warnings.append(f"Low script coverage ({alignment.script_coverage:.1%}). Alignment may be poor.")
-        
+
         # Step 5: Export captions
-        print("Step 5: Exporting captions...")
+        update_progress(90, "Step 5: Exporting captions...")
         
         # Generate output filename
         safe_title = "".join(c if c.isalnum() else "_" for c in match_result.title)
@@ -231,9 +270,8 @@ class CaptionSyncPipeline:
         
         export_to_webvtt(alignment.captions, str(webvtt_path))
         export_to_json(alignment, str(json_path))
-        
-        print(f"   Saved: {webvtt_path}")
-        print(f"   Saved: {json_path}")
+
+        update_progress(95, f"Saved captions to {base_name}.vtt")
         
         return ProcessingResult(
             success=True,

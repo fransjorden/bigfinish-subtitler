@@ -10,6 +10,7 @@ import sys
 import json
 import tempfile
 import shutil
+import asyncio
 from pathlib import Path
 from typing import Optional
 from datetime import datetime
@@ -75,8 +76,8 @@ class EpisodeInfo(BaseModel):
     release_number: int
 
 
-@app.get("/")
-async def root():
+@app.get("/api/health")
+async def health_check():
     """Health check endpoint"""
     return {"status": "ok", "service": "Big Finish Caption Sync"}
 
@@ -85,7 +86,7 @@ async def root():
 async def list_episodes():
     """List all available episodes"""
     try:
-        with open(SEARCH_INDEX) as f:
+        with open(SEARCH_INDEX, encoding='utf-8') as f:
             index = json.load(f)
         
         episodes = []
@@ -154,21 +155,25 @@ async def upload_audio(
     return {"job_id": job_id, "status": "pending"}
 
 
-async def process_audio_job(job_id: str):
-    """Background task to process uploaded audio"""
-    job = jobs.get(job_id)
-    if not job:
-        return
-    
+def run_pipeline_sync(job_id: str, job: dict, manual_episode: str = None, manual_part: int = None):
+    """
+    Run the pipeline synchronously (called from thread pool).
+    This is blocking code that shouldn't run on the event loop.
+    """
+    def progress_callback(progress: int, message: str):
+        """Update job progress from pipeline"""
+        job['progress'] = progress
+        job['message'] = message
+
     try:
         job['status'] = 'processing'
-        job['progress'] = 10
-        job['message'] = 'Transcribing audio...'
-        
+        job['progress'] = 5
+        job['message'] = 'Starting processing...'
+
         # Create output directory for this job
         job_output_dir = Path(OUTPUT_DIR) / job_id
         job_output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         # Initialize pipeline
         pipeline = CaptionSyncPipeline(
             scripts_dir=SCRIPTS_DIR,
@@ -176,19 +181,16 @@ async def process_audio_job(job_id: str):
             openai_api_key=OPENAI_API_KEY,
             use_local_whisper=not bool(OPENAI_API_KEY)
         )
-        
-        job['progress'] = 30
-        job['message'] = 'Identifying episode...'
-        
-        # Process the audio
+
+        # Process the audio with progress callback
         result = pipeline.process_audio(
             audio_path=job['file_path'],
-            output_dir=str(job_output_dir)
+            output_dir=str(job_output_dir),
+            manual_episode=manual_episode,
+            manual_part=manual_part,
+            progress_callback=progress_callback
         )
-        
-        job['progress'] = 90
-        job['message'] = 'Finalizing...'
-        
+
         if result.success:
             job['status'] = 'completed'
             job['progress'] = 100
@@ -208,18 +210,28 @@ async def process_audio_job(job_id: str):
             job['progress'] = 100
             job['message'] = f'Processing failed: {result.error}'
             job['result'] = {'error': result.error}
-        
+
         # Clean up uploaded file
         try:
             os.remove(job['file_path'])
         except:
             pass
-            
+
     except Exception as e:
         job['status'] = 'failed'
         job['progress'] = 100
         job['message'] = f'Error: {str(e)}'
         job['result'] = {'error': str(e)}
+
+
+async def process_audio_job(job_id: str):
+    """Background task to process uploaded audio"""
+    job = jobs.get(job_id)
+    if not job:
+        return
+
+    # Run the blocking pipeline work in a thread pool
+    await asyncio.to_thread(run_pipeline_sync, job_id, job)
 
 
 @app.get("/api/job/{job_id}")
@@ -270,7 +282,7 @@ async def get_captions(job_id: str):
         raise HTTPException(status_code=404, detail="Caption file not found")
     
     # Load and return caption data
-    with open(json_files[0]) as f:
+    with open(json_files[0], encoding='utf-8') as f:
         data = json.load(f)
     
     return {
@@ -325,64 +337,31 @@ async def process_manual_job(job_id: str):
     job = jobs.get(job_id)
     if not job:
         return
-    
-    try:
-        job['status'] = 'processing'
-        job['progress'] = 10
-        job['message'] = 'Transcribing audio...'
-        
-        job_output_dir = Path(OUTPUT_DIR) / job_id
-        job_output_dir.mkdir(parents=True, exist_ok=True)
-        
-        pipeline = CaptionSyncPipeline(
-            scripts_dir=SCRIPTS_DIR,
-            search_index_path=SEARCH_INDEX,
-            openai_api_key=OPENAI_API_KEY,
-            use_local_whisper=not bool(OPENAI_API_KEY)
-        )
-        
-        job['progress'] = 50
-        job['message'] = 'Aligning with script...'
-        
-        result = pipeline.process_audio(
-            audio_path=job['file_path'],
-            output_dir=str(job_output_dir),
-            manual_episode=job.get('manual_episode'),
-            manual_part=job.get('manual_part')
-        )
-        
-        if result.success:
-            job['status'] = 'completed'
-            job['progress'] = 100
-            job['message'] = 'Processing complete!'
-            job['result'] = {
-                'episode_title': result.episode_title,
-                'part_number': result.part_number,
-                'release_number': result.release_number,
-                'match_confidence': result.match_confidence,
-                'captions_count': result.captions_count,
-                'webvtt_url': f"/api/output/{job_id}/{Path(result.webvtt_path).name}",
-                'json_url': f"/api/output/{job_id}/{Path(result.json_path).name}",
-                'warnings': result.warnings
-            }
-        else:
-            job['status'] = 'failed'
-            job['message'] = f'Failed: {result.error}'
-            job['result'] = {'error': result.error}
-        
-        try:
-            os.remove(job['file_path'])
-        except:
-            pass
-            
-    except Exception as e:
-        job['status'] = 'failed'
-        job['message'] = f'Error: {str(e)}'
-        job['result'] = {'error': str(e)}
+
+    # Run the blocking pipeline work in a thread pool
+    await asyncio.to_thread(
+        run_pipeline_sync,
+        job_id,
+        job,
+        job.get('manual_episode'),
+        job.get('manual_part')
+    )
 
 
-# Mount static files for frontend (must be last, after API routes)
-app.mount("/", StaticFiles(directory=Path(__file__).parent / "static", html=True), name="static")
+# Serve index.html with no-cache headers for development
+@app.get("/")
+async def serve_index():
+    """Serve the main page with no-cache headers"""
+    index_path = Path(__file__).parent / "static" / "index.html"
+    return FileResponse(
+        index_path,
+        media_type="text/html",
+        headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
+    )
+
+
+# Mount static files for other assets
+app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
 
 
 if __name__ == "__main__":

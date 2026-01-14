@@ -105,35 +105,56 @@ def transcribe_with_whisper_api(audio_path: str, api_key: str) -> TranscriptionR
     )
 
 
-def transcribe_with_local_whisper(audio_path: str, model: str = "base") -> TranscriptionResult:
+def transcribe_with_local_whisper(
+    audio_path: str,
+    model: str = "base",
+    progress_callback: Optional[callable] = None
+) -> TranscriptionResult:
     """
     Transcribe audio using local Whisper installation.
-    Requires: pip install openai-whisper
-    
+    Tries faster-whisper first (with progress), falls back to openai-whisper.
+
     Args:
         audio_path: Path to the audio file
         model: Whisper model size (tiny, base, small, medium, large)
-        
+        progress_callback: Optional callback(progress: float, message: str) for updates
+
     Returns:
         TranscriptionResult with word-level timestamps
     """
+    # Try faster-whisper first (has progress callbacks and is faster)
+    try:
+        return _transcribe_with_faster_whisper(audio_path, model, progress_callback)
+    except ImportError:
+        pass
+
+    # Fall back to openai-whisper
     try:
         import whisper
     except ImportError:
-        raise ImportError("Please install whisper: pip install openai-whisper")
-    
+        raise ImportError("Please install whisper: pip install openai-whisper (or faster-whisper for progress support)")
+
+    if progress_callback:
+        # Get duration for progress estimation
+        duration = get_audio_duration(audio_path)
+        if duration > 0:
+            progress_callback(0, f"Transcribing {duration/60:.1f} minutes of audio...")
+
     # Load model
     model_instance = whisper.load_model(model)
-    
+
+    if progress_callback:
+        progress_callback(5, "Model loaded, transcribing...")
+
     # Transcribe with word timestamps
     result = model_instance.transcribe(
         audio_path,
         language="en",
         word_timestamps=True
     )
-    
+
     segments = []
-    
+
     for segment in result["segments"]:
         words = []
         for word_data in segment.get("words", []):
@@ -142,22 +163,102 @@ def transcribe_with_local_whisper(audio_path: str, model: str = "base") -> Trans
                 start=word_data["start"],
                 end=word_data["end"]
             ))
-        
+
         segments.append(TranscriptSegment(
             text=segment["text"].strip(),
             start=segment["start"],
             end=segment["end"],
             words=words
         ))
-    
+
     # Calculate duration from last segment
     duration = segments[-1].end if segments else 0
-    
+
+    if progress_callback:
+        progress_callback(100, f"Transcribed {len(segments)} segments")
+
     return TranscriptionResult(
         segments=segments,
         full_text=result["text"],
         duration=duration,
         language=result.get("language", "en")
+    )
+
+
+def _transcribe_with_faster_whisper(
+    audio_path: str,
+    model: str = "base",
+    progress_callback: Optional[callable] = None
+) -> TranscriptionResult:
+    """
+    Transcribe using faster-whisper (CTranslate2-based, much faster with progress).
+    """
+    from faster_whisper import WhisperModel
+
+    if progress_callback:
+        progress_callback(0, "Loading transcription model...")
+
+    # Load model (use CPU, int8 for efficiency)
+    model_instance = WhisperModel(model, device="cpu", compute_type="int8")
+
+    # Get audio duration for progress tracking
+    audio_duration = get_audio_duration(audio_path)
+
+    if progress_callback:
+        progress_callback(5, f"Transcribing {audio_duration/60:.1f} minutes of audio...")
+
+    # Transcribe with word timestamps
+    segments_generator, info = model_instance.transcribe(
+        audio_path,
+        language="en",
+        word_timestamps=True
+    )
+
+    segments = []
+    full_text_parts = []
+    last_progress = 5
+
+    for segment in segments_generator:
+        words = []
+        for word in segment.words or []:
+            words.append(WordTimestamp(
+                word=word.word.strip(),
+                start=word.start,
+                end=word.end
+            ))
+
+        segments.append(TranscriptSegment(
+            text=segment.text.strip(),
+            start=segment.start,
+            end=segment.end,
+            words=words
+        ))
+        full_text_parts.append(segment.text.strip())
+
+        # Update progress based on position in audio
+        if progress_callback and audio_duration > 0:
+            # Scale progress from 5% to 95% based on audio position
+            progress = 5 + (segment.end / audio_duration) * 90
+            # Only update if progress changed significantly (avoid too many updates)
+            if progress - last_progress >= 2:
+                mins_done = segment.end / 60
+                mins_total = audio_duration / 60
+                progress_callback(
+                    progress,
+                    f"Transcribing... {mins_done:.1f}/{mins_total:.1f} min"
+                )
+                last_progress = progress
+
+    duration = segments[-1].end if segments else info.duration
+
+    if progress_callback:
+        progress_callback(100, f"Transcribed {len(segments)} segments")
+
+    return TranscriptionResult(
+        segments=segments,
+        full_text=" ".join(full_text_parts),
+        duration=duration,
+        language=info.language or "en"
     )
 
 

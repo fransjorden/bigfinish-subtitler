@@ -1,125 +1,163 @@
-# Big Finish Doctor Who Caption Sync
+# Big Finish Caption Sync
 
-An accessibility tool for syncing captions to Big Finish Doctor Who audio dramas.
+An accessibility tool that generates synchronized captions for Big Finish Doctor Who audio dramas using AI transcription and official script matching.
 
-## Project Status: Phase 2 Complete ✅
+## Features
 
-### What's Built
-
-**Phase 1: Script Database**
-- Parsed 237 OCR-scanned scripts into structured JSON
-- 310 individual episodes, 1,093 parts
-- Search index for episode auto-detection
-
-**Phase 2: Processing Pipeline**
-- Whisper AI transcription integration
-- Episode auto-detection from audio
-- Transcript-to-script alignment algorithm
-- WebVTT caption generation
-- Web application with player
-
-## Requirements
-
-- Python 3.8+
-- FFmpeg/FFprobe (for audio duration detection)
+- **AI Transcription** - Uses Whisper to transcribe audio with word-level timestamps
+- **Auto Episode Detection** - Identifies which episode you're playing from the audio
+- **Script Alignment** - Matches transcript to official script text for accurate captions
+- **Speaker Labels** - Shows who's speaking (DOCTOR, CHARLEY, etc.)
+- **WebVTT Export** - Standard caption format compatible with most players
+- **Web Interface** - Simple drag-and-drop UI with built-in caption player
 
 ## Quick Start
 
-### 1. Install Dependencies
+### Prerequisites
+
+- **Python 3.11+** (3.13 recommended)
+- **FFmpeg** - For audio processing ([download](https://ffmpeg.org/download.html))
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/bigfinish-captions.git
+cd bigfinish-captions
+
+# Create virtual environment
+python -m venv venv
+
+# Activate it
+# On Windows:
+venv\Scripts\activate
+# On Mac/Linux:
+source venv/bin/activate
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2. Set Environment Variables
+### For Faster Transcription (Recommended)
+
+Install `faster-whisper` for 4x faster transcription with live progress:
 
 ```bash
-export OPENAI_API_KEY="your-api-key-here"  # For Whisper API
+pip install faster-whisper
+```
+
+> **Note:** Requires Python 3.11-3.13. If installation fails, standard Whisper will be used automatically.
+
+### Run the Server
+
+```bash
+cd webapp
+python server.py
+```
+
+Open http://localhost:8000 in your browser.
+
+## How It Works
+
+1. **Upload** - Drop your Big Finish MP3 into the web interface
+2. **Transcribe** - Whisper AI generates timestamped transcript
+3. **Identify** - System searches 310 episodes to find a match
+4. **Align** - Matches transcript to official script (preserving proper punctuation)
+5. **Output** - WebVTT captions with speaker labels and accurate timing
+
+## Using the Captions
+
+After processing, you can:
+- **Play in browser** - Built-in player shows captions as you listen
+- **Download VTT** - Use with VLC, media servers, or other players
+- **Download JSON** - For custom integrations
+
+### VLC Usage
+
+1. Open your MP3 in VLC
+2. Go to Subtitle > Add Subtitle File
+3. Select the downloaded .vtt file
+
+## Project Structure
+
+```
+bigfinish-captions/
+├── webapp/
+│   ├── server.py              # FastAPI backend
+│   └── static/index.html      # Web interface
+├── parsed_scripts/            # Script database (310 episodes)
+│   └── search_index.json      # Episode search index
+├── pipeline.py                # Main processing pipeline
+├── transcription_service.py   # Whisper integration
+├── episode_matcher.py         # Episode auto-detection
+├── alignment.py               # Script alignment algorithm
+└── requirements.txt
+```
+
+## Configuration
+
+### Environment Variables (Optional)
+
+```bash
+# Use OpenAI Whisper API instead of local (faster, requires API key)
+export OPENAI_API_KEY="sk-..."
+
+# Custom paths (defaults work for most setups)
 export SCRIPTS_DIR="./parsed_scripts"
 export SEARCH_INDEX="./parsed_scripts/search_index.json"
 ```
 
-### 3. Run the Server
+### Whisper Models
 
-```bash
-cd webapp
-python server.py
+By default, uses the `base` model. For better accuracy (slower):
+
+Edit `pipeline.py` line 60:
+```python
+whisper_model: str = "small"  # or "medium", "large"
 ```
 
-Then open http://localhost:8000 in your browser.
+## Script Database
 
-### Alternative: Local Whisper (No API Key)
+| Metric | Count |
+|--------|-------|
+| Scripts | 237 |
+| Episodes | 310 |
+| Parts | 1,093 |
+| Dialogue words | 6.4M |
 
-If you don't have an OpenAI API key, install local Whisper:
+Covers the Main Range, Eighth Doctor Adventures, and more.
 
+## Troubleshooting
+
+### "No module named 'whisper'"
 ```bash
 pip install openai-whisper
+# or for faster processing:
+pip install faster-whisper
 ```
 
-The system will automatically use local Whisper if no API key is set.
+### "FFmpeg not found"
+Install FFmpeg and ensure it's in your PATH:
+- Windows: Download from ffmpeg.org, add bin folder to PATH
+- Mac: `brew install ffmpeg`
+- Linux: `sudo apt install ffmpeg`
 
-## How It Works
+### Low confidence match
+If the episode isn't detected correctly, check that:
+- Audio is from the Main Range or 8th Doctor Adventures
+- Audio quality is reasonable
+- First 3 minutes contain recognizable dialogue
 
-1. **Upload MP3** → User uploads their Big Finish audio file
-2. **Transcription** → Whisper AI generates timestamped transcript
-3. **Episode Detection** → System searches script database to identify episode
-4. **Alignment** → Matches transcript words to official script text
-5. **Caption Output** → WebVTT file with correct text and accurate timing
+## Privacy
 
-## File Structure
-
-```
-bigfinish-captions/
-├── parsed_scripts/           # Pre-parsed script database
-│   ├── search_index.json     # Search index for matching
-│   └── *.json                # Individual script files
-├── webapp/
-│   ├── server.py             # FastAPI backend
-│   └── static/
-│       └── index.html        # Frontend application
-├── transcription_service.py  # Whisper integration
-├── episode_matcher.py        # Episode auto-detection
-├── alignment.py              # Transcript alignment
-├── pipeline.py               # Main processing pipeline
-├── script_parser.py          # Script parsing (for rebuilding DB)
-├── build_search_index.py     # Index builder
-└── requirements.txt          # Python dependencies
-```
-
-## Statistics
-
-| Metric | Value |
-|--------|-------|
-| Total scripts | 237 original files |
-| Parsed entries | 310 episodes |
-| Total parts | 1,093 |
-| Total dialogue | 6.4 million words |
-
-## Development
-
-### Running Locally
-
-```bash
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the server
-cd webapp
-python server.py
-```
-
-### Rebuilding the Search Index
-
-If you update the parsed scripts, rebuild the search index:
-
-```bash
-python build_search_index.py
-```
+- Your audio files are processed locally
+- Nothing is uploaded to external servers (unless using OpenAI API)
+- Uploaded files are deleted after processing
 
 ## License
 
-This tool is for personal accessibility use only. It does not distribute any copyrighted audio content.
+This tool is for personal accessibility use. It does not distribute copyrighted content.
+
+## Contributing
+
+Issues and pull requests welcome! See the GitHub issues for planned improvements.

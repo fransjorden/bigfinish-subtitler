@@ -113,7 +113,7 @@ def match_episode(transcript_text: str,
         MatchResult with identified episode and confidence
     """
     # Load search index
-    with open(search_index_path) as f:
+    with open(search_index_path, encoding='utf-8') as f:
         index = json.load(f)
     
     # First pass: quick search using index samples
@@ -167,8 +167,8 @@ def match_episode(transcript_text: str,
         
         if not script_path.exists():
             continue
-        
-        with open(script_path) as f:
+
+        with open(script_path, encoding='utf-8') as f:
             script_data = json.load(f)
         
         # Find the right part
@@ -233,8 +233,8 @@ def get_script_part_text(script_id: str, part_number: int, scripts_dir: str) -> 
     
     if not script_path.exists():
         return None
-    
-    with open(script_path) as f:
+
+    with open(script_path, encoding='utf-8') as f:
         script_data = json.load(f)
     
     for part in script_data['parts']:

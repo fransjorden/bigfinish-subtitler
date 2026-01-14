@@ -5,8 +5,13 @@ fastapi>=0.104.0
 uvicorn>=0.24.0
 python-multipart>=0.0.6
 
-# HTTP requests (for OpenAI API)
+# HTTP requests
 requests>=2.31.0
 
-# Optional: Local Whisper (install separately if needed)
-# pip install openai-whisper
+# Transcription - install ONE of these:
+# Option 1: Standard Whisper (works on all Python versions)
+openai-whisper>=20231117
+
+# Option 2: Faster Whisper (4x faster, requires Python 3.11-3.13)
+# Uncomment below and comment out openai-whisper above:
+# faster-whisper>=1.0.0
