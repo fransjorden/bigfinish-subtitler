@@ -77,7 +77,9 @@ class CaptionSyncPipeline:
         # Validate paths
         if not self.scripts_dir.exists():
             raise ValueError(f"Scripts directory not found: {scripts_dir}")
-        if not Path(search_index_path).exists():
+        # Check for search index (supports both .json and .enc)
+        idx = Path(search_index_path)
+        if not idx.exists() and not idx.with_suffix('.enc').exists() and not (idx.parent / "search_index.enc").exists():
             raise ValueError(f"Search index not found: {search_index_path}")
     
     def process_audio(self,

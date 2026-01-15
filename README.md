@@ -10,37 +10,15 @@ An accessibility tool that generates synchronized captions for Big Finish Doctor
 - **Speaker Labels** - Shows who's speaking (DOCTOR, CHARLEY, etc.)
 - **WebVTT Export** - Standard caption format compatible with most players
 - **Web Interface** - Simple drag-and-drop UI with built-in caption player
-- **GPU Acceleration** - Optional CUDA support for faster processing
 
----
+## Quick Start
 
-## Installation
-
-### Option 1: Windows Installer (Recommended)
-
-Download the latest installer - no technical knowledge required:
-
-**[Download BigFinishSubtitler-Setup-1.0.0.exe](https://github.com/fransjorden/bigfinish-subtitler/releases/latest)**
-
-The installer will:
-- Auto-detect your GPU and recommend the best processing mode
-- Download and install all dependencies automatically
-- Create a Start Menu shortcut
-- Launch with a single click
-
-> **Requirements:** Windows 10/11 (64-bit), ~1GB disk space, internet connection for first-time setup
-
-### Option 2: Run from Source (Developers)
-
-For developers or users on Mac/Linux:
-
-#### Prerequisites
+### Prerequisites
 
 - **Python 3.11+** (3.13 recommended)
 - **FFmpeg** - For audio processing ([download](https://ffmpeg.org/download.html))
-- **Git** - For cloning the repository
 
-#### Setup
+### Installation
 
 ```bash
 # Clone the repository
@@ -51,27 +29,32 @@ cd bigfinish-subtitler
 python -m venv venv
 
 # Activate it
-# Windows:
+# On Windows:
 venv\Scripts\activate
-# Mac/Linux:
+# On Mac/Linux:
 source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
+```
 
-# For faster transcription (recommended, 4x faster):
+### For Faster Transcription (Recommended)
+
+Install `faster-whisper` for 4x faster transcription with live progress:
+
+```bash
 pip install faster-whisper
 ```
 
-#### Run the Server
+> **Note:** Requires Python 3.11-3.13. If installation fails, standard Whisper will be used automatically.
+
+### Run the Server
 
 ```bash
 python webapp/server.py
 ```
 
 Open http://localhost:8000 in your browser.
-
----
 
 ## How It Works
 
@@ -94,8 +77,6 @@ After processing, you can:
 2. Go to Subtitle > Add Subtitle File
 3. Select the downloaded .vtt file
 
----
-
 ## Script Database
 
 | Metric | Count |
@@ -106,8 +87,6 @@ After processing, you can:
 
 Covers the Main Range (releases 1-275), Tenth Doctor Adventures, Companion Chronicles, and more.
 
----
-
 ## Configuration
 
 ### Environment Variables (Optional)
@@ -115,41 +94,19 @@ Covers the Main Range (releases 1-275), Tenth Doctor Adventures, Companion Chron
 ```bash
 # Use OpenAI Whisper API instead of local (faster, requires API key)
 export OPENAI_API_KEY="sk-..."
-
-# Custom paths (defaults work for most setups)
-export SCRIPTS_DIR="./parsed_scripts"
 ```
 
 ### Whisper Models
 
-By default, uses the `small` model. For different accuracy/speed tradeoffs, edit `pipeline.py`:
+By default, uses the `base` model. For better accuracy (slower), edit `pipeline.py`:
 
-| Model | Speed | Accuracy | VRAM |
-|-------|-------|----------|------|
-| tiny | Fastest | Lower | ~1GB |
-| base | Fast | Good | ~1GB |
-| small | Medium | Better | ~2GB |
-| medium | Slow | High | ~5GB |
-| large | Slowest | Highest | ~10GB |
-
----
-
-## Building the Installer
-
-To build the Windows installer yourself:
-
-1. Install [Inno Setup 6](https://jrsoftware.org/isinfo.php)
-2. Run the preparation script:
-   ```cmd
-   cd installer
-   prepare_python.bat
-   ```
-3. Open `installer/setup.iss` in Inno Setup Compiler
-4. Click Compile
-
-See [`installer/BUILD.md`](installer/BUILD.md) for detailed instructions.
-
----
+| Model | Speed | Accuracy |
+|-------|-------|----------|
+| tiny | Fastest | Lower |
+| base | Fast | Good |
+| small | Medium | Better |
+| medium | Slow | High |
+| large | Slowest | Highest |
 
 ## Troubleshooting
 
@@ -162,22 +119,15 @@ pip install faster-whisper
 
 ### "FFmpeg not found"
 Install FFmpeg and ensure it's in your PATH:
-- **Windows:** Download from ffmpeg.org, add bin folder to PATH
-- **Mac:** `brew install ffmpeg`
-- **Linux:** `sudo apt install ffmpeg`
+- Windows: Download from ffmpeg.org, add bin folder to PATH
+- Mac: `brew install ffmpeg`
+- Linux: `sudo apt install ffmpeg`
 
 ### Low confidence match
-If the episode isn't detected correctly:
-- Ensure audio is from a supported release
-- Check audio quality is reasonable
-- First 3 minutes should contain recognizable dialogue
-
-### GPU not detected (Windows Installer)
-- Ensure NVIDIA drivers are installed
-- The installer uses `nvidia-smi` to detect GPUs
-- CPU mode works on all systems, just slower
-
----
+If the episode isn't detected correctly, check that:
+- Audio is from the Main Range or supported spin-offs
+- Audio quality is reasonable
+- First 3 minutes contain recognizable dialogue
 
 ## Privacy
 
@@ -193,4 +143,4 @@ This tool is for personal accessibility use. It does not distribute copyrighted 
 
 ## Contributing
 
-Issues and pull requests welcome! See the [GitHub issues](https://github.com/fransjorden/bigfinish-subtitler/issues) for planned improvements.
+Issues and pull requests welcome!
