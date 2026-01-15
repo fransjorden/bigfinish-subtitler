@@ -75,10 +75,10 @@ def build_search_index(parsed_dir: str, output_file: str):
     
     # Process each script
     for script_file in sorted(parsed_path.glob('*.json')):
-        if script_file.name == '_index.json':
+        if script_file.name in ('_index.json', 'search_index.json'):
             continue
-        
-        with open(script_file) as f:
+
+        with open(script_file, encoding='utf-8') as f:
             script = json.load(f)
         
         script_id = script['id']
@@ -139,8 +139,8 @@ def build_search_index(parsed_dir: str, output_file: str):
         index['stats']['total_parts'] += len(script['parts'])
     
     # Save index
-    with open(output_file, 'w') as f:
-        json.dump(index, f, indent=2)
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(index, f, indent=2, ensure_ascii=False)
     
     print(f"Search index created: {output_file}")
     print(f"  Scripts: {index['stats']['total_scripts']}")

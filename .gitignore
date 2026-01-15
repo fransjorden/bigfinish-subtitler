@@ -43,6 +43,11 @@ ENV/
 uploads/
 outputs/
 
+# Script files - keep encrypted (.enc), ignore plaintext (.json)
+# Encrypt scripts before committing: python script_crypto.py encrypt <password>
+parsed_scripts/*.json
+raw_scripts/*.txt
+
 # OS files
 .DS_Store
 Thumbs.db
@@ -72,3 +77,4 @@ coverage.xml
 
 # mypy
 .mypy_cache/
+NUL

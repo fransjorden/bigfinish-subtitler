@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Big Finish Caption Sync</title>
+    <title>Big Finish Subtitler</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
@@ -28,29 +29,44 @@
             color: var(--text-primary);
             min-height: 100vh;
         }
+        /* Subtle star background */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background: 
-                radial-gradient(ellipse at 20% 80%, rgba(0, 59, 111, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(74, 158, 255, 0.08) 0%, transparent 40%);
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(0, 59, 111, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(74, 158, 255, 0.06) 0%, transparent 40%);
             pointer-events: none;
             z-index: -1;
         }
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,0.15), transparent),
+                radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.1), transparent),
+                radial-gradient(1px 1px at 50px 160px, rgba(255,255,255,0.12), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.08), transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.1), transparent),
+                radial-gradient(1px 1px at 160px 120px, rgba(255,255,255,0.06), transparent),
+                radial-gradient(1.5px 1.5px at 200px 50px, rgba(255,255,255,0.12), transparent),
+                radial-gradient(1px 1px at 220px 150px, rgba(255,255,255,0.08), transparent),
+                radial-gradient(1px 1px at 280px 90px, rgba(255,255,255,0.1), transparent),
+                radial-gradient(1px 1px at 320px 180px, rgba(255,255,255,0.06), transparent),
+                radial-gradient(1.5px 1.5px at 380px 30px, rgba(255,255,255,0.1), transparent),
+                radial-gradient(1px 1px at 420px 120px, rgba(255,255,255,0.08), transparent),
+                radial-gradient(1px 1px at 480px 70px, rgba(255,255,255,0.12), transparent),
+                radial-gradient(1px 1px at 540px 160px, rgba(255,255,255,0.06), transparent),
+                radial-gradient(1px 1px at 600px 40px, rgba(255,255,255,0.1), transparent);
+            background-size: 650px 200px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.6;
+        }
         .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
         header { text-align: center; padding: 3rem 0; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
-        .logo { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem; }
-        .tardis-icon {
-            width: 48px; height: 48px; background: var(--accent-tardis); border-radius: 4px; position: relative;
-            box-shadow: 0 0 20px rgba(74, 158, 255, 0.3), inset 0 -10px 20px rgba(0,0,0,0.3);
-        }
-        .tardis-icon::before {
-            content: ''; position: absolute; top: 4px; left: 50%; transform: translateX(-50%);
-            width: 12px; height: 12px; background: var(--accent-gold); border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent-gold); animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
         h1 {
             font-family: 'Crimson Pro', serif; font-size: 2.5rem; font-weight: 600;
             background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
@@ -63,10 +79,69 @@
             cursor: pointer; transition: all 0.3s ease;
         }
         .upload-zone:hover { border-color: var(--accent-blue); background: rgba(74, 158, 255, 0.05); }
+        .upload-zone.drag-over { border-color: var(--accent-blue); background: rgba(74, 158, 255, 0.1); }
         .upload-icon { width: 64px; height: 64px; margin: 0 auto 1rem; stroke: var(--text-secondary); }
         .upload-text { font-size: 1.1rem; margin-bottom: 0.5rem; }
         .upload-subtext { color: var(--text-muted); font-size: 0.9rem; }
         input[type="file"] { display: none; }
+
+        /* Multi-file toggle */
+        .upload-options { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+        .toggle-row { display: flex; align-items: center; justify-content: center; gap: 0.75rem; }
+        .toggle-label { color: var(--text-secondary); font-size: 0.9rem; }
+        .toggle {
+            position: relative; width: 44px; height: 24px; background: var(--bg-dark);
+            border-radius: 12px; cursor: pointer; transition: background 0.2s;
+        }
+        .toggle.active { background: var(--accent-blue); }
+        .toggle::after {
+            content: ''; position: absolute; top: 2px; left: 2px;
+            width: 20px; height: 20px; background: white; border-radius: 50%;
+            transition: transform 0.2s;
+        }
+        .toggle.active::after { transform: translateX(20px); }
+        .toggle-hint { display: block; color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem; text-align: center; }
+
+        /* Multi-file list */
+        .file-list { margin-top: 1rem; display: none; }
+        .file-list.visible { display: block; }
+        .file-list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+        .file-list-header h4 { font-size: 0.9rem; color: var(--text-secondary); }
+        .file-list-items { background: var(--bg-dark); border-radius: 8px; overflow: hidden; }
+        .file-item {
+            display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border); cursor: grab;
+        }
+        .file-item:last-child { border-bottom: none; }
+        .file-item.dragging { opacity: 0.5; background: var(--bg-hover); }
+        .file-item-number {
+            width: 24px; height: 24px; background: var(--accent-tardis); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 600; flex-shrink: 0;
+        }
+        .file-item-name { flex: 1; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .file-item-size { color: var(--text-muted); font-size: 0.8rem; flex-shrink: 0; }
+        .file-item-remove {
+            width: 24px; height: 24px; background: none; border: none; color: var(--text-muted);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            border-radius: 4px; transition: all 0.2s;
+        }
+        .file-item-remove:hover { background: rgba(255,100,100,0.2); color: #ff6b6b; }
+        .file-list-actions { margin-top: 1rem; display: flex; gap: 0.75rem; }
+        .btn-add-more {
+            flex: 1; padding: 0.75rem; background: var(--bg-dark); border: 1px dashed var(--border);
+            border-radius: 8px; color: var(--text-secondary); cursor: pointer; font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .btn-add-more:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+        .btn-process {
+            flex: 1; padding: 0.75rem; background: linear-gradient(135deg, var(--accent-tardis), var(--accent-blue));
+            border: none; border-radius: 8px; color: white; cursor: pointer; font-size: 0.9rem;
+            font-weight: 500; transition: all 0.2s;
+        }
+        .btn-process:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(74, 158, 255, 0.3); }
+        .btn-process:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
         .progress-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
         .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
         .progress-status { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent-blue); }
@@ -92,20 +167,169 @@
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(74, 158, 255, 0.3); }
         .btn-secondary { background: var(--bg-dark); color: var(--text-primary); border: 1px solid var(--border); }
         .btn-secondary:hover { background: var(--bg-hover); border-color: var(--accent-blue); }
+
+        /* Player section - fixed layout for stable speaker position */
         .player-section { position: fixed; inset: 0; background: var(--bg-dark); z-index: 100; display: flex; flex-direction: column; }
         .player-header { padding: 1rem 2rem; background: var(--bg-card); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
         .player-title { font-family: 'Crimson Pro', serif; font-size: 1.2rem; }
         .close-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0.5rem; }
-        .caption-display { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
-        .speaker-name { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; min-height: 1.5rem; transition: opacity 0.15s; }
-        .caption-text { font-family: 'Crimson Pro', serif; font-size: 3rem; line-height: 1.4; max-width: 80%; text-shadow: 0 2px 20px rgba(0,0,0,0.5); transition: opacity 0.15s; }
+
+        /* Caption display with fixed positions */
+        .caption-display {
+            flex: 1;
+            display: grid;
+            grid-template-rows: 1fr auto 2fr;
+            align-items: center;
+            justify-items: center;
+            padding: 2rem;
+            text-align: center;
+            overflow: hidden;
+        }
+        .speaker-container {
+            align-self: end;
+            padding-bottom: 1rem;
+        }
+        .speaker-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            min-height: 1.5rem;
+            transition: opacity 0.15s;
+        }
+        .caption-container {
+            align-self: start;
+            width: 100%;
+            max-width: 80%;
+        }
+        .caption-text {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3rem;
+            line-height: 1.4;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+            transition: opacity 0.15s;
+        }
         .caption-text.fading, .speaker-name.fading { opacity: 0.3; }
+
+        /* Music/intro indicator */
+        .music-indicator {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-muted);
+        }
+        .music-indicator.visible { display: flex; }
+        .music-note {
+            font-size: 3rem;
+            animation: float 2s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .music-bars {
+            display: flex;
+            gap: 4px;
+            height: 30px;
+            align-items: flex-end;
+        }
+        .music-bar {
+            width: 4px;
+            background: var(--accent-blue);
+            border-radius: 2px;
+            animation: musicBar 0.8s ease-in-out infinite;
+        }
+        .music-bar:nth-child(1) { animation-delay: 0s; }
+        .music-bar:nth-child(2) { animation-delay: 0.1s; }
+        .music-bar:nth-child(3) { animation-delay: 0.2s; }
+        .music-bar:nth-child(4) { animation-delay: 0.3s; }
+        .music-bar:nth-child(5) { animation-delay: 0.4s; }
+        @keyframes musicBar {
+            0%, 100% { height: 8px; }
+            50% { height: 25px; }
+        }
+        .music-text { font-size: 0.9rem; letter-spacing: 0.1em; }
+
+        /* Recap indicator */
+        .recap-indicator {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+        .recap-indicator.visible { display: flex; }
+        .recap-text {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.8rem;
+            font-style: italic;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+        }
+
         .player-controls { padding: 1.5rem 2rem; background: var(--bg-card); border-top: 1px solid var(--border); }
         .audio-player { width: 100%; margin-bottom: 1rem; }
         .time-display { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-secondary); }
-        .info-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem 2rem; }
+        .info-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem 2rem; margin-bottom: 2rem; }
         .info-section h3 { font-size: 1rem; color: var(--text-secondary); margin-bottom: 0.75rem; }
         .info-section p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+
+        /* Stories section */
+        .stories-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem 2rem; }
+        .stories-section h3 { font-size: 1rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .stories-count { color: var(--accent-blue); font-size: 0.85rem; margin-bottom: 1rem; }
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        .stories-grid::-webkit-scrollbar { width: 6px; }
+        .stories-grid::-webkit-scrollbar-track { background: var(--bg-dark); border-radius: 3px; }
+        .stories-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        .stories-grid::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+        .story-item {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            padding: 0.4rem 0.6rem;
+            background: var(--bg-dark);
+            border-radius: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .story-item:hover { color: var(--text-secondary); }
+        .stories-search {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            margin-bottom: 1rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+        .stories-search:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+        .stories-search::placeholder { color: var(--text-muted); }
+        .stories-toggle {
+            background: none;
+            border: none;
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+        .stories-toggle:hover { text-decoration: underline; }
+
         .hidden { display: none !important; }
         @media (max-width: 768px) {
             .container { padding: 1rem; }
@@ -118,10 +342,7 @@
 <body>
     <div class="container" id="main-view">
         <header>
-            <div class="logo">
-                <div class="tardis-icon"></div>
-                <h1>Big Finish Caption Sync</h1>
-            </div>
+            <h1>Big Finish Subtitler</h1>
             <p class="tagline">Accessibility captions for Doctor Who audio dramas</p>
         </header>
         <section class="upload-section" id="upload-section">
@@ -129,9 +350,26 @@
                 <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M12 15V3m0 0l-4 4m4-4l4 4"/><path d="M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/>
                 </svg>
-                <p class="upload-text">Drop your Big Finish MP3 here</p>
-                <p class="upload-subtext">or click to browse • MP3, WAV, M4A supported</p>
+                <p class="upload-text" id="upload-text">Drop your Big Finish MP3 here</p>
+                <p class="upload-subtext">or click to browse</p>
                 <input type="file" id="file-input" accept=".mp3,.wav,.m4a,.ogg">
+            </div>
+            <div class="upload-options">
+                <div class="toggle-row">
+                    <span class="toggle-label">Multiple tracks</span>
+                    <div class="toggle" id="multi-toggle" role="switch" aria-checked="false" tabindex="0"></div>
+                </div>
+                <span class="toggle-hint">Enable if your episode is split across multiple files</span>
+            </div>
+            <div class="file-list" id="file-list">
+                <div class="file-list-header">
+                    <h4>Tracks (drag to reorder)</h4>
+                </div>
+                <div class="file-list-items" id="file-list-items"></div>
+                <div class="file-list-actions">
+                    <button class="btn-add-more" id="btn-add-more">+ Add another track</button>
+                    <button class="btn-process" id="btn-process" disabled>Process tracks</button>
+                </div>
             </div>
         </section>
         <section class="progress-section hidden" id="progress-section">
@@ -160,7 +398,13 @@
         </section>
         <section class="info-section">
             <h3>How it works</h3>
-            <p>Upload your legitimately purchased Big Finish MP3. We'll transcribe it using AI, automatically identify the episode, and sync accurate captions from the official scripts. Your audio stays in your browser – we never store your files.</p>
+            <p>Upload your legitimately purchased Big Finish MP3. We'll transcribe it using AI, automatically identify the episode, and sync accurate subtitles from the official scripts. Your audio stays in your browser - we never store your files.</p>
+        </section>
+        <section class="stories-section" id="stories-section">
+            <h3>Supported Stories</h3>
+            <p class="stories-count" id="stories-count">Loading...</p>
+            <input type="text" class="stories-search" id="stories-search" placeholder="Search stories..." style="display:none;">
+            <div class="stories-grid" id="stories-grid"></div>
         </section>
     </div>
     <section class="player-section hidden" id="player-section">
@@ -169,8 +413,26 @@
             <button class="close-btn" id="close-player"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
         </div>
         <div class="caption-display">
-            <p class="speaker-name" id="speaker-name"></p>
-            <p class="caption-text" id="caption-text">Press play to begin...</p>
+            <div class="speaker-container">
+                <p class="speaker-name" id="speaker-name"></p>
+            </div>
+            <div class="caption-container">
+                <p class="caption-text" id="caption-text">Press play to begin...</p>
+                <div class="music-indicator" id="music-indicator">
+                    <div class="music-bars">
+                        <div class="music-bar"></div>
+                        <div class="music-bar"></div>
+                        <div class="music-bar"></div>
+                        <div class="music-bar"></div>
+                        <div class="music-bar"></div>
+                    </div>
+                    <span class="music-text">Music</span>
+                </div>
+                <div class="recap-indicator" id="recap-indicator">
+                    <span class="recap-text">Previously...</span>
+                </div>
+            </div>
+            <div></div><!-- Spacer for grid -->
         </div>
         <div class="player-controls">
             <audio class="audio-player" id="audio-player" controls></audio>
@@ -178,7 +440,10 @@
         </div>
     </section>
     <script>
-        let captions = [], audioFile = null, currentJobId = null, jobResult = null;
+        let captions = [], gaps = [], audioFiles = [], currentJobId = null, jobResult = null, multiMode = false;
+        let mergedAudioBlob = null;
+        let lastCaptionEnd = 0; // Track the last shown caption for dimming
+
         const uploadZone = document.getElementById('upload-zone');
         const fileInput = document.getElementById('file-input');
         const uploadSection = document.getElementById('upload-section');
@@ -188,44 +453,162 @@
         const mainView = document.getElementById('main-view');
         const audioPlayer = document.getElementById('audio-player');
         const captionText = document.getElementById('caption-text');
+        const multiToggle = document.getElementById('multi-toggle');
+        const fileList = document.getElementById('file-list');
+        const fileListItems = document.getElementById('file-list-items');
+        const btnProcess = document.getElementById('btn-process');
+        const musicIndicator = document.getElementById('music-indicator');
+        const recapIndicator = document.getElementById('recap-indicator');
 
+        // Multi-file toggle
+        multiToggle.addEventListener('click', () => {
+            multiMode = !multiMode;
+            multiToggle.classList.toggle('active', multiMode);
+            multiToggle.setAttribute('aria-checked', multiMode);
+            fileList.classList.toggle('visible', multiMode);
+            document.getElementById('upload-text').textContent = multiMode
+                ? 'Drop your first track here'
+                : 'Drop your Big Finish MP3 here';
+            if (!multiMode) {
+                audioFiles = [];
+                renderFileList();
+            }
+        });
+        multiToggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); multiToggle.click(); }});
+
+        // Upload zone events
         uploadZone.addEventListener('click', () => fileInput.click());
-        fileInput.addEventListener('change', e => e.target.files[0] && handleFile(e.target.files[0]));
-        uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.style.borderColor = '#4a9eff'; });
-        uploadZone.addEventListener('dragleave', () => uploadZone.style.borderColor = '');
-        uploadZone.addEventListener('drop', e => { e.preventDefault(); uploadZone.style.borderColor = ''; e.dataTransfer.files[0] && handleFile(e.dataTransfer.files[0]); });
+        fileInput.addEventListener('change', e => {
+            if (e.target.files[0]) {
+                if (multiMode) {
+                    addFile(e.target.files[0]);
+                } else {
+                    handleSingleFile(e.target.files[0]);
+                }
+            }
+            e.target.value = ''; // Reset for same file selection
+        });
+        uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+        uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+        uploadZone.addEventListener('drop', e => {
+            e.preventDefault();
+            uploadZone.classList.remove('drag-over');
+            const files = Array.from(e.dataTransfer.files).filter(f => /\.(mp3|wav|m4a|ogg)$/i.test(f.name));
+            if (multiMode) {
+                files.forEach(f => addFile(f));
+            } else if (files[0]) {
+                handleSingleFile(files[0]);
+            }
+        });
+
+        // Multi-file list management
+        function addFile(file) {
+            audioFiles.push(file);
+            renderFileList();
+        }
+
+        function removeFile(index) {
+            audioFiles.splice(index, 1);
+            renderFileList();
+        }
+
+        function renderFileList() {
+            fileListItems.innerHTML = audioFiles.map((f, i) => `
+                <div class="file-item" draggable="true" data-index="${i}">
+                    <span class="file-item-number">${i + 1}</span>
+                    <span class="file-item-name">${f.name}</span>
+                    <span class="file-item-size">${formatBytes(f.size)}</span>
+                    <button class="file-item-remove" onclick="removeFile(${i})" title="Remove">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    </button>
+                </div>
+            `).join('');
+            btnProcess.disabled = audioFiles.length === 0;
+            document.getElementById('upload-text').textContent = audioFiles.length > 0
+                ? `${audioFiles.length} track${audioFiles.length > 1 ? 's' : ''} added`
+                : 'Drop your first track here';
+
+            // Re-attach drag events
+            document.querySelectorAll('.file-item').forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('drop', handleDrop);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+        }
+
+        // Drag and drop reordering
+        let draggedIndex = null;
+        function handleDragStart(e) {
+            draggedIndex = parseInt(e.target.dataset.index);
+            e.target.classList.add('dragging');
+        }
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+        function handleDrop(e) {
+            e.preventDefault();
+            const dropIndex = parseInt(e.target.closest('.file-item').dataset.index);
+            if (draggedIndex !== null && draggedIndex !== dropIndex) {
+                const [moved] = audioFiles.splice(draggedIndex, 1);
+                audioFiles.splice(dropIndex, 0, moved);
+                renderFileList();
+            }
+        }
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            draggedIndex = null;
+        }
+
+        document.getElementById('btn-add-more').addEventListener('click', () => fileInput.click());
+        btnProcess.addEventListener('click', handleMultipleFiles);
         document.getElementById('play-btn').addEventListener('click', openPlayer);
         document.getElementById('close-player').addEventListener('click', closePlayer);
         document.getElementById('new-upload-btn').addEventListener('click', () => location.reload());
         document.getElementById('download-btn').addEventListener('click', downloadVTT);
         audioPlayer.addEventListener('timeupdate', updateCaption);
 
-        async function handleFile(file) {
-            audioFile = file;
+        async function handleSingleFile(file) {
+            audioFiles = [file];
+            mergedAudioBlob = null;
             uploadSection.classList.add('hidden');
             progressSection.classList.remove('hidden');
             updateProgress(0, `Uploading ${file.name}...`, 'upload');
 
             try {
-                // Upload file with progress tracking
                 const formData = new FormData();
                 formData.append('file', file);
-
-                const job_id = await uploadWithProgress(formData);
+                const job_id = await uploadWithProgress(formData, '/api/upload');
                 currentJobId = job_id;
-
-                // Show transition to processing
                 updateProgress(0, 'Starting transcription...', 'process');
-
-                // Poll for job status
                 await pollJobStatus(job_id);
-
             } catch (err) {
                 showError(err.message);
             }
         }
 
-        function uploadWithProgress(formData) {
+        async function handleMultipleFiles() {
+            if (audioFiles.length === 0) return;
+
+            uploadSection.classList.add('hidden');
+            progressSection.classList.remove('hidden');
+
+            try {
+                updateProgress(0, `Uploading ${audioFiles.length} tracks...`, 'upload');
+
+                const formData = new FormData();
+                audioFiles.forEach((f, i) => formData.append('files', f));
+
+                const job_id = await uploadWithProgress(formData, '/api/upload-multi');
+                currentJobId = job_id;
+                updateProgress(0, 'Merging tracks and starting transcription...', 'process');
+                await pollJobStatus(job_id);
+            } catch (err) {
+                showError(err.message);
+            }
+        }
+
+        function uploadWithProgress(formData, endpoint) {
             return new Promise((resolve, reject) => {
                 const xhr = new XMLHttpRequest();
 
@@ -253,7 +636,7 @@
                 xhr.addEventListener('error', () => reject(new Error('Upload failed - network error')));
                 xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')));
 
-                xhr.open('POST', '/api/upload');
+                xhr.open('POST', endpoint);
                 xhr.send(formData);
             });
         }
@@ -274,7 +657,6 @@
 
                 if (job.status === 'completed') {
                     jobResult = job.result;
-                    // Load captions for player
                     await loadCaptions(jobId);
                     showResult({
                         title: job.result.episode_title,
@@ -288,7 +670,6 @@
                     throw new Error(job.result?.error || job.message);
                 }
 
-                // Wait before polling again
                 await new Promise(r => setTimeout(r, 1000));
             }
         }
@@ -298,15 +679,22 @@
             if (res.ok) {
                 const data = await res.json();
                 captions = data.captions.map(c => {
-                    // Extract speaker from text if it has "SPEAKER: text" format
                     let speaker = c.speaker || '';
                     let text = c.text;
-                    // Remove speaker prefix from text if present
                     if (speaker && text.startsWith(speaker + ':')) {
                         text = text.substring(speaker.length + 1).trim();
                     }
                     return { text, speaker, start: c.start, end: c.end };
                 });
+                // Load gaps (intro/recap/music sections)
+                gaps = (data.gaps || []).map(g => ({
+                    start: g.start,
+                    end: g.end,
+                    type: g.type,  // "music", "recap"
+                    hasSpeech: g.has_speech,
+                    text: g.transcript_text || ''
+                }));
+                console.log(`Loaded ${captions.length} captions, ${gaps.length} gaps`);
             }
         }
 
@@ -314,7 +702,6 @@
             document.getElementById('progress-fill').style.width = p + '%';
             document.getElementById('progress-percent').textContent = p + '%';
             document.getElementById('progress-message').textContent = m;
-            // Update header based on phase
             const header = document.querySelector('.progress-header span:first-child');
             if (phase === 'upload') {
                 header.textContent = 'Uploading your audio...';
@@ -336,7 +723,6 @@
             document.getElementById('result-meta').textContent = 'Part ' + r.part + ' • Release #' + String(r.release).padStart(3, '0');
             document.getElementById('stat-captions').textContent = r.count;
             document.getElementById('stat-confidence').textContent = Math.round(r.confidence * 100) + '%';
-            // Calculate duration from captions
             if (captions.length > 0) {
                 const duration = captions[captions.length - 1].end;
                 document.getElementById('stat-duration').textContent = formatTime(duration);
@@ -344,16 +730,33 @@
         }
 
         function openPlayer() {
-            if (!audioFile) return alert('Upload an audio file first');
+            if (audioFiles.length === 0) return alert('Upload an audio file first');
             mainView.classList.add('hidden');
             playerSection.classList.remove('hidden');
             document.getElementById('player-title').textContent = document.getElementById('result-title').textContent;
-            audioPlayer.src = URL.createObjectURL(audioFile);
+
+            // For multi-file, we need to use the merged audio from server or concatenate client-side
+            if (audioFiles.length === 1) {
+                audioPlayer.src = URL.createObjectURL(audioFiles[0]);
+            } else if (jobResult && jobResult.merged_audio_url) {
+                audioPlayer.src = jobResult.merged_audio_url;
+            } else {
+                // Fallback: just use first file (not ideal but works)
+                audioPlayer.src = URL.createObjectURL(audioFiles[0]);
+            }
+
             document.getElementById('speaker-name').textContent = '';
             captionText.textContent = 'Press play to begin...';
+            musicIndicator.classList.remove('visible');
+            recapIndicator.classList.remove('visible');
+            lastCaptionEnd = 0;
         }
 
-        function closePlayer() { playerSection.classList.add('hidden'); mainView.classList.remove('hidden'); audioPlayer.pause(); }
+        function closePlayer() {
+            playerSection.classList.add('hidden');
+            mainView.classList.remove('hidden');
+            audioPlayer.pause();
+        }
 
         function updateCaption() {
             const t = audioPlayer.currentTime;
@@ -361,14 +764,54 @@
             document.getElementById('total-time').textContent = formatTime(audioPlayer.duration || 0);
             const speakerEl = document.getElementById('speaker-name');
             const c = captions.find(c => t >= c.start && t <= c.end);
+
+            // Helper to hide all indicators
+            function hideIndicators() {
+                musicIndicator.classList.remove('visible');
+                recapIndicator.classList.remove('visible');
+            }
+
             if (c) {
+                // Show caption
                 speakerEl.textContent = c.speaker || '';
                 captionText.textContent = c.text;
                 captionText.classList.remove('fading');
                 speakerEl.classList.remove('fading');
+                hideIndicators();
+                captionText.style.display = 'block';
+                lastCaptionEnd = c.end;
+            } else if (!audioPlayer.paused) {
+                // No caption but audio playing - check what type of gap this is
+                const gap = gaps.find(g => t >= g.start && t <= g.end);
+
+                if (gap) {
+                    // We're in a detected gap
+                    speakerEl.textContent = '';
+                    captionText.style.display = 'none';
+
+                    if (gap.type === 'recap') {
+                        // Show "Previously..." for recap sections
+                        musicIndicator.classList.remove('visible');
+                        recapIndicator.classList.add('visible');
+                    } else {
+                        // Show music indicator for music sections
+                        recapIndicator.classList.remove('visible');
+                        musicIndicator.classList.add('visible');
+                    }
+                } else {
+                    // Short gap between captions - just dim the previous caption
+                    // Don't show any indicator
+                    hideIndicators();
+                    captionText.classList.add('fading');
+                    speakerEl.classList.add('fading');
+                    captionText.style.display = 'block';
+                }
             } else {
+                // Paused with no caption
                 captionText.classList.add('fading');
                 speakerEl.classList.add('fading');
+                hideIndicators();
+                captionText.style.display = 'block';
             }
         }
 
@@ -376,10 +819,8 @@
 
         function downloadVTT() {
             if (jobResult && jobResult.webvtt_url) {
-                // Download from server
                 window.location.href = jobResult.webvtt_url;
             } else {
-                // Fallback: generate from captions
                 let vtt = 'WEBVTT\n\n';
                 captions.forEach((c,i) => { vtt += (i+1)+'\n'+fmtVTT(c.start)+' --> '+fmtVTT(c.end)+'\n'+c.text+'\n\n'; });
                 const a = document.createElement('a');
@@ -389,6 +830,58 @@
         }
 
         function fmtVTT(s) { const h=Math.floor(s/3600), m=Math.floor(s%3600/60), sec=(s%60).toFixed(3); return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+sec.padStart(6,'0'); }
+
+        // Stories data and search
+        let allStories = [];
+
+        async function loadStories() {
+            const countEl = document.getElementById('stories-count');
+            const gridEl = document.getElementById('stories-grid');
+            const searchEl = document.getElementById('stories-search');
+
+            try {
+                const res = await fetch('/api/stories');
+                if (!res.ok) throw new Error('Failed to load stories');
+                const data = await res.json();
+
+                allStories = data.stories;
+                countEl.textContent = `${data.total} stories available`;
+                searchEl.style.display = 'block';
+                renderStories(allStories);
+
+                // Set up search
+                searchEl.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase().trim();
+                    if (!query) {
+                        renderStories(allStories);
+                    } else {
+                        const filtered = allStories.filter(s =>
+                            s.title.toLowerCase().includes(query)
+                        );
+                        renderStories(filtered);
+                    }
+                });
+            } catch (err) {
+                // Server not running - show message
+                console.log('Stories API not available:', err.message);
+                countEl.textContent = 'Start the server to see supported stories';
+                gridEl.innerHTML = '';
+            }
+        }
+
+        function renderStories(stories) {
+            const gridEl = document.getElementById('stories-grid');
+            if (stories.length === 0) {
+                gridEl.innerHTML = '<div class="story-item">No matching stories</div>';
+            } else {
+                gridEl.innerHTML = stories.map(s =>
+                    `<div class="story-item" title="${s.title}">#${s.release_number} ${s.title}</div>`
+                ).join('');
+            }
+        }
+
+        // Load stories on page load
+        loadStories();
     </script>
 </body>
 </html>

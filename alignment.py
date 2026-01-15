@@ -36,9 +36,20 @@ class ScriptWord:
 
 
 @dataclass
+class GapSegment:
+    """A gap between captions - may be music, recap, or silence"""
+    start: float            # Start time in seconds
+    end: float              # End time in seconds
+    gap_type: str           # "music", "recap", "silence"
+    has_speech: bool        # Whether transcript detected speech
+    transcript_text: str    # What whisper heard (for debugging/display)
+
+
+@dataclass
 class AlignmentResult:
     """Complete alignment result"""
     captions: list[AlignedCaption]
+    gaps: list[GapSegment]  # Gaps between/before/after captions
     script_coverage: float  # What % of script was matched
     transcript_coverage: float  # What % of transcript was used
     average_confidence: float
@@ -357,29 +368,33 @@ def align_transcript_to_script(transcript_data: dict,
     if not transcript_words:
         return AlignmentResult(
             captions=[],
+            gaps=[],
             script_coverage=0.0,
             transcript_coverage=0.0,
             average_confidence=0.0
         )
-    
+
     # Tokenize script
     script_words = tokenize(script_dialogue)
-    
+
     # Perform alignment
     alignments = align_sequences(transcript_words, script_words)
-    
+
     # Create captions
     captions = create_captions_from_alignment(
-        transcript_words, 
-        script_dialogue, 
+        transcript_words,
+        script_dialogue,
         alignments
     )
-    
+
+    # Detect gaps
+    gaps = detect_gaps(transcript_words, captions, alignments)
+
     # Calculate coverage stats
     if alignments:
         transcript_indices = set(a[0] for a in alignments)
         script_indices = set(a[1] for a in alignments)
-        
+
         transcript_coverage = len(transcript_indices) / len(transcript_words)
         script_coverage = len(script_indices) / len(script_words) if script_words else 0
         avg_confidence = sum(c.confidence for c in captions) / len(captions) if captions else 0
@@ -387,9 +402,10 @@ def align_transcript_to_script(transcript_data: dict,
         transcript_coverage = 0
         script_coverage = 0
         avg_confidence = 0
-    
+
     return AlignmentResult(
         captions=captions,
+        gaps=gaps,
         script_coverage=script_coverage,
         transcript_coverage=transcript_coverage,
         average_confidence=avg_confidence
@@ -422,6 +438,7 @@ def align_transcript_to_script_elements(transcript_data: dict,
     if not transcript_words:
         return AlignmentResult(
             captions=[],
+            gaps=[],
             script_coverage=0.0,
             transcript_coverage=0.0,
             average_confidence=0.0
@@ -433,6 +450,7 @@ def align_transcript_to_script_elements(transcript_data: dict,
     if not script_words:
         return AlignmentResult(
             captions=[],
+            gaps=[],
             script_coverage=0.0,
             transcript_coverage=0.0,
             average_confidence=0.0
@@ -447,6 +465,9 @@ def align_transcript_to_script_elements(transcript_data: dict,
         script_words,
         alignments
     )
+
+    # Detect gaps (unmatched transcript sections)
+    gaps = detect_gaps(transcript_words, captions, alignments)
 
     # Calculate coverage stats
     if alignments:
@@ -463,6 +484,7 @@ def align_transcript_to_script_elements(transcript_data: dict,
 
     return AlignmentResult(
         captions=captions,
+        gaps=gaps,
         script_coverage=script_coverage,
         transcript_coverage=transcript_coverage,
         average_confidence=avg_confidence
@@ -565,6 +587,133 @@ def _create_caption_with_speaker(group: list[dict]) -> AlignedCaption:
     )
 
 
+def detect_gaps(transcript_words: list[dict],
+                captions: list[AlignedCaption],
+                alignments: list[tuple],
+                min_gap_duration: float = 3.0) -> list[GapSegment]:
+    """
+    Detect gaps in the captions and classify them.
+
+    Gap types:
+    - "music": No speech detected (intro/outro music)
+    - "recap": Speech detected but doesn't match script (previous episode recap)
+    - "silence": Short gap between dialogue
+
+    Args:
+        transcript_words: All words from transcript with timestamps
+        captions: Generated captions
+        alignments: Alignment pairs (transcript_idx, script_idx, score)
+        min_gap_duration: Minimum gap duration to report (seconds)
+
+    Returns:
+        List of GapSegment objects
+    """
+    if not transcript_words:
+        return []
+
+    gaps = []
+    matched_transcript_indices = set(a[0] for a in alignments)
+
+    # Get audio duration from last transcript word
+    audio_duration = transcript_words[-1]['end'] if transcript_words else 0
+
+    # Find all time ranges and their status
+    # First, identify unmatched transcript regions
+    unmatched_regions = []
+    current_region = None
+
+    for i, tw in enumerate(transcript_words):
+        is_matched = i in matched_transcript_indices
+
+        if not is_matched:
+            if current_region is None:
+                current_region = {
+                    'start': tw['start'],
+                    'end': tw['end'],
+                    'words': [tw['word']]
+                }
+            else:
+                current_region['end'] = tw['end']
+                current_region['words'].append(tw['word'])
+        else:
+            if current_region is not None:
+                unmatched_regions.append(current_region)
+                current_region = None
+
+    if current_region is not None:
+        unmatched_regions.append(current_region)
+
+    # Convert unmatched regions to gap segments
+    for region in unmatched_regions:
+        duration = region['end'] - region['start']
+        if duration < min_gap_duration:
+            continue
+
+        # Has speech if there are words
+        has_speech = len(region['words']) > 0
+        transcript_text = ' '.join(region['words'])
+
+        # Classify the gap
+        if not has_speech:
+            gap_type = "music"
+        else:
+            # Speech that doesn't match script = recap
+            gap_type = "recap"
+
+        gaps.append(GapSegment(
+            start=region['start'],
+            end=region['end'],
+            gap_type=gap_type,
+            has_speech=has_speech,
+            transcript_text=transcript_text
+        ))
+
+    # Also detect gaps BEFORE first caption and AFTER last caption
+    if captions:
+        first_caption_start = captions[0].start
+        last_caption_end = captions[-1].end
+
+        # Gap before first caption (intro)
+        if first_caption_start > min_gap_duration:
+            # Check if there's unmatched speech in this region
+            intro_words = [tw for tw in transcript_words if tw['end'] <= first_caption_start]
+            intro_text = ' '.join(tw['word'] for tw in intro_words)
+            has_intro_speech = len(intro_words) > 5  # More than a few words
+
+            # Check if this intro gap is already covered by unmatched regions
+            intro_covered = any(g.start < min_gap_duration and g.end >= first_caption_start - 1
+                               for g in gaps)
+
+            if not intro_covered:
+                gap_type = "recap" if has_intro_speech else "music"
+                gaps.insert(0, GapSegment(
+                    start=0,
+                    end=first_caption_start,
+                    gap_type=gap_type,
+                    has_speech=has_intro_speech,
+                    transcript_text=intro_text[:200] if intro_text else ""
+                ))
+
+        # Gap after last caption (outro)
+        if audio_duration - last_caption_end > min_gap_duration:
+            outro_words = [tw for tw in transcript_words if tw['start'] >= last_caption_end]
+            outro_text = ' '.join(tw['word'] for tw in outro_words)
+            has_outro_speech = len(outro_words) > 5
+
+            gaps.append(GapSegment(
+                start=last_caption_end,
+                end=audio_duration,
+                gap_type="music" if not has_outro_speech else "recap",
+                has_speech=has_outro_speech,
+                transcript_text=outro_text[:200] if outro_text else ""
+            ))
+
+    # Sort by start time
+    gaps.sort(key=lambda g: g.start)
+
+    return gaps
+
+
 def export_to_webvtt(captions: list[AlignedCaption], output_path: str):
     """Export captions to WebVTT format"""
     
@@ -600,13 +749,23 @@ def export_to_json(alignment_result: AlignmentResult, output_path: str):
             }
             for c in alignment_result.captions
         ],
+        'gaps': [
+            {
+                'start': g.start,
+                'end': g.end,
+                'type': g.gap_type,
+                'has_speech': g.has_speech,
+                'transcript_text': g.transcript_text
+            }
+            for g in alignment_result.gaps
+        ],
         'stats': {
             'script_coverage': alignment_result.script_coverage,
             'transcript_coverage': alignment_result.transcript_coverage,
             'average_confidence': alignment_result.average_confidence
         }
     }
-    
+
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 

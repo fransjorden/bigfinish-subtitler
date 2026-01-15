@@ -109,7 +109,7 @@ class CaptionSyncPipeline:
         output_path.mkdir(parents=True, exist_ok=True)
 
         # Step 1: Transcribe audio
-        update_progress(10, "Step 1: Transcribing audio...")
+        update_progress(10, "Step 1: Transcribing audio (this runs locally and may take 2-5 minutes)...")
 
         # Create a callback that scales transcription progress (0-100) to pipeline progress (10-30)
         def transcription_progress(pct: float, msg: str):
