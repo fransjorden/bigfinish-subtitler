@@ -13,6 +13,8 @@ from dataclasses import dataclass
 from typing import Optional
 from collections import Counter
 
+from script_crypto import load_search_index
+
 
 @dataclass
 class MatchResult:
@@ -112,9 +114,10 @@ def match_episode(transcript_text: str,
     Returns:
         MatchResult with identified episode and confidence
     """
-    # Load search index
-    with open(search_index_path, encoding='utf-8') as f:
-        index = json.load(f)
+    # Load search index (supports both .enc and .json)
+    index = load_search_index()
+    if not index:
+        raise ValueError(f"Could not load search index from {search_index_path}")
     
     # First pass: quick search using index samples
     candidates = []
