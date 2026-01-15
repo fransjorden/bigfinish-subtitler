@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - Big Finish Subtitler</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: white;
+        }
+
+        .demo-container {
+            width: 900px;
+            height: 600px;
+            position: relative;
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+        }
+
+        /* Header */
+        .demo-header {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .demo-header .logo {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .demo-header .tagline {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Main content area */
+        .demo-content {
+            padding: 40px;
+            height: calc(100% - 60px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Step indicator */
+        .step-indicator {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.5s ease;
+        }
+
+        .step-dot.active {
+            background: #00d4ff;
+            box-shadow: 0 0 15px #00d4ff;
+        }
+
+        /* All scenes */
+        .scene {
+            position: absolute;
+            inset: 60px 40px 40px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+            pointer-events: none;
+        }
+
+        .scene.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Scene 1: Upload */
+        .upload-zone {
+            width: 400px;
+            height: 200px;
+            border: 3px dashed rgba(255,255,255,0.3);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            transition: all 0.4s ease;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .upload-zone.dropping {
+            border-color: #00d4ff;
+            background: rgba(0,212,255,0.1);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 50px;
+            opacity: 0.7;
+        }
+
+        .upload-text {
+            font-size: 16px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .file-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.08);
+            padding: 12px 20px;
+            border-radius: 12px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .file-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.4s ease;
+        }
+
+        .file-icon {
+            font-size: 24px;
+        }
+
+        .file-name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .file-size {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Scene 2: Processing */
+        .processing-container {
+            text-align: center;
+        }
+
+        .waveform {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            height: 80px;
+            margin-bottom: 30px;
+        }
+
+        .wave-bar {
+            width: 6px;
+            background: linear-gradient(180deg, #00d4ff, #7b2cbf);
+            border-radius: 3px;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { height: 20px; }
+            50% { height: 60px; }
+        }
+
+        .processing-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 300px;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .processing-step {
+            margin-top: 15px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Scene 3: Match found */
+        .match-container {
+            text-align: center;
+        }
+
+        .match-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .match-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .match-subtitle {
+            font-size: 16px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 25px;
+        }
+
+        .match-info {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .match-stat {
+            text-align: center;
+        }
+
+        .match-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #00d4ff;
+        }
+
+        .match-stat-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 4px;
+        }
+
+        /* Scene 4: Player */
+        .player-container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .player-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .player-episode {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .caption-display {
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px;
+            padding: 30px;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .caption-character {
+            font-size: 13px;
+            color: #00d4ff;
+            margin-bottom: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .caption-text {
+            font-size: 22px;
+            text-align: center;
+            line-height: 1.5;
+            max-width: 500px;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .play-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,212,255,0.3);
+        }
+
+        .timeline {
+            flex: 1;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .timeline-thumb {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            left: 0%;
+            transition: left 0.1s linear;
+        }
+
+        .time-display {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            min-width: 80px;
+            text-align: right;
+        }
+
+        /* Restart button */
+        .restart-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .restart-btn.visible {
+            opacity: 1;
+        }
+
+        .restart-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <span class="logo">Big Finish Subtitler</span>
+            <span class="tagline">Accessibility captions for audio dramas</span>
+        </div>
+
+        <div class="demo-content">
+            <div class="step-indicator">
+                <div class="step-dot active" data-step="1"></div>
+                <div class="step-dot" data-step="2"></div>
+                <div class="step-dot" data-step="3"></div>
+                <div class="step-dot" data-step="4"></div>
+            </div>
+
+            <!-- Scene 1: Upload -->
+            <div class="scene active" id="scene1">
+                <div class="upload-zone" id="uploadZone">
+                    <div class="upload-icon">♪</div>
+                    <div class="upload-text">Drop your audio file here</div>
+                </div>
+                <div class="file-card" id="fileCard" style="margin-top: 20px;">
+                    <span class="file-icon">♫</span>
+                    <div>
+                        <div class="file-name">034-spare-parts-pt1.mp3</div>
+                        <div class="file-size">45.2 MB</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scene 2: Processing -->
+            <div class="scene" id="scene2">
+                <div class="processing-container">
+                    <div class="waveform" id="waveform"></div>
+                    <div class="processing-text">Processing audio...</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="processing-step" id="processingStep">Transcribing audio...</div>
+                </div>
+            </div>
+
+            <!-- Scene 3: Match Found -->
+            <div class="scene" id="scene3">
+                <div class="match-container">
+                    <div class="match-icon">✓</div>
+                    <div class="match-title">Spare Parts</div>
+                    <div class="match-subtitle">Release #34 - Part 1 of 4</div>
+                    <div class="match-info">
+                        <div class="match-stat">
+                            <div class="match-stat-value">98%</div>
+                            <div class="match-stat-label">Match confidence</div>
+                        </div>
+                        <div class="match-stat">
+                            <div class="match-stat-value">847</div>
+                            <div class="match-stat-label">Captions synced</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scene 4: Player -->
+            <div class="scene" id="scene4">
+                <div class="player-container">
+                    <div class="player-header">
+                        <div>
+                            <div class="player-title">Spare Parts</div>
+                            <div class="player-episode">Part 1 of 4</div>
+                        </div>
+                    </div>
+                    <div class="caption-display">
+                        <div class="caption-character" id="captionChar">DOCTOR</div>
+                        <div class="caption-text" id="captionText">There's something very wrong with this place, Nyssa...</div>
+                    </div>
+                    <div class="player-controls">
+                        <div class="play-btn">▶</div>
+                        <div class="timeline">
+                            <div class="timeline-progress" id="timelineProgress"></div>
+                            <div class="timeline-thumb" id="timelineThumb"></div>
+                        </div>
+                        <div class="time-display" id="timeDisplay">2:34 / 28:15</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="restart-btn" id="restartBtn" onclick="startDemo()">↻ Replay Demo</button>
+        </div>
+    </div>
+
+    <script>
+        // Demo timeline (in milliseconds)
+        const timeline = [
+            // Scene 1: Upload (0-3s) - faster upload
+            { time: 0, action: () => showScene(1) },
+            { time: 800, action: () => document.getElementById('uploadZone').classList.add('dropping') },
+            { time: 1500, action: () => {
+                document.getElementById('uploadZone').classList.remove('dropping');
+                document.getElementById('fileCard').classList.add('visible');
+            }},
+
+            // Scene 2: Processing (3-13s)
+            { time: 3000, action: () => showScene(2) },
+            { time: 3500, action: () => animateProgress() },
+
+            // Scene 3: Match (13-17s)
+            { time: 13000, action: () => showScene(3) },
+
+            // Scene 4: Player (17-30s)
+            { time: 17000, action: () => showScene(4) },
+            { time: 17500, action: () => animatePlayer() },
+
+            // Show restart button after player runs for a while
+            { time: 28000, action: () => document.getElementById('restartBtn').classList.add('visible') },
+        ];
+
+        let timeouts = [];
+
+        // Create waveform bars
+        function createWaveform() {
+            const waveform = document.getElementById('waveform');
+            waveform.innerHTML = '';
+            for (let i = 0; i < 30; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'wave-bar';
+                bar.style.animationDelay = `${i * 0.05}s`;
+                waveform.appendChild(bar);
+            }
+        }
+
+        function showScene(num) {
+            // Update dots
+            document.querySelectorAll('.step-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i < num);
+            });
+
+            // Update scenes
+            document.querySelectorAll('.scene').forEach((scene, i) => {
+                scene.classList.toggle('active', i === num - 1);
+            });
+        }
+
+        function animateProgress() {
+            const fill = document.getElementById('progressFill');
+            const step = document.getElementById('processingStep');
+            const steps = [
+                { progress: 20, text: 'Transcribing audio...' },
+                { progress: 50, text: 'Matching to script database...' },
+                { progress: 75, text: 'Aligning captions...' },
+                { progress: 100, text: 'Complete!' },
+            ];
+
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < steps.length) {
+                    fill.style.width = steps[i].progress + '%';
+                    step.textContent = steps[i].text;
+                    i++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 2000);
+            timeouts.push(interval);
+        }
+
+        const captions = [
+            { char: 'DOCTOR', text: "There's something very wrong with this place, Nyssa..." },
+            { char: 'NYSSA', text: "What do you mean, Doctor?" },
+            { char: 'DOCTOR', text: "Can't you feel it? The wrongness in the air?" },
+        ];
+
+        function animatePlayer() {
+            let progress = 0;
+            let captionIndex = 0;
+            let lastCaptionChange = 0;
+
+            const interval = setInterval(() => {
+                progress += 0.2;
+
+                // Update timeline
+                const percent = (progress / 28.25) * 100;
+                document.getElementById('timelineProgress').style.width = percent + '%';
+                document.getElementById('timelineThumb').style.left = percent + '%';
+
+                // Update time
+                const mins = Math.floor((2*60 + 34 + progress) / 60);
+                const secs = Math.floor((2*60 + 34 + progress) % 60);
+                document.getElementById('timeDisplay').textContent =
+                    `${mins}:${secs.toString().padStart(2, '0')} / 28:15`;
+
+                // Change captions every 2.5 seconds, stop after showing all 3
+                if (progress - lastCaptionChange > 2.5 && captionIndex < captions.length - 1) {
+                    captionIndex++;
+                    lastCaptionChange = progress;
+                    document.getElementById('captionChar').textContent = captions[captionIndex].char;
+                    document.getElementById('captionText').textContent = captions[captionIndex].text;
+                }
+
+                // Stop after showing all 3 captions (about 7.5 seconds)
+                if (captionIndex >= captions.length - 1 && progress - lastCaptionChange > 2.5) {
+                    clearInterval(interval);
+                }
+            }, 100);
+            timeouts.push(interval);
+        }
+
+        function startDemo() {
+            // Clear any existing timeouts
+            timeouts.forEach(t => clearTimeout(t) || clearInterval(t));
+            timeouts = [];
+
+            // Reset UI
+            document.getElementById('restartBtn').classList.remove('visible');
+            document.getElementById('uploadZone').classList.remove('dropping');
+            document.getElementById('fileCard').classList.remove('visible');
+            document.getElementById('progressFill').style.width = '0%';
+            document.getElementById('processingStep').textContent = 'Transcribing audio...';
+            document.getElementById('timelineProgress').style.width = '0%';
+            document.getElementById('timelineThumb').style.left = '0%';
+            document.getElementById('timeDisplay').textContent = '2:34 / 28:15';
+            document.getElementById('captionChar').textContent = captions[0].char;
+            document.getElementById('captionText').textContent = captions[0].text;
+
+            // Schedule all timeline events
+            timeline.forEach(event => {
+                const timeout = setTimeout(event.action, event.time);
+                timeouts.push(timeout);
+            });
+        }
+
+        // Initialize
+        createWaveform();
+        startDemo();
+    </script>
+</body>
+</html>

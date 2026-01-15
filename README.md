@@ -1,4 +1,4 @@
-# Big Finish Caption Sync
+# Big Finish Subtitler
 
 An accessibility tool that generates synchronized captions for Big Finish Doctor Who audio dramas using AI transcription and official script matching.
 
@@ -10,58 +10,74 @@ An accessibility tool that generates synchronized captions for Big Finish Doctor
 - **Speaker Labels** - Shows who's speaking (DOCTOR, CHARLEY, etc.)
 - **WebVTT Export** - Standard caption format compatible with most players
 - **Web Interface** - Simple drag-and-drop UI with built-in caption player
+- **GPU Acceleration** - Optional CUDA support for faster processing
 
-## Quick Start
+---
 
-### Prerequisites
+## Installation
+
+### Option 1: Windows Installer (Recommended)
+
+Download the latest installer - no technical knowledge required:
+
+**[Download BigFinishSubtitler-Setup-1.0.0.exe](https://github.com/fransjorden/bigfinish-subtitler/releases/latest)**
+
+The installer will:
+- Auto-detect your GPU and recommend the best processing mode
+- Download and install all dependencies automatically
+- Create a Start Menu shortcut
+- Launch with a single click
+
+> **Requirements:** Windows 10/11 (64-bit), ~1GB disk space, internet connection for first-time setup
+
+### Option 2: Run from Source (Developers)
+
+For developers or users on Mac/Linux:
+
+#### Prerequisites
 
 - **Python 3.11+** (3.13 recommended)
 - **FFmpeg** - For audio processing ([download](https://ffmpeg.org/download.html))
+- **Git** - For cloning the repository
 
-### Installation
+#### Setup
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/bigfinish-captions.git
-cd bigfinish-captions
+git clone https://github.com/fransjorden/bigfinish-subtitler.git
+cd bigfinish-subtitler
 
 # Create virtual environment
 python -m venv venv
 
 # Activate it
-# On Windows:
+# Windows:
 venv\Scripts\activate
-# On Mac/Linux:
+# Mac/Linux:
 source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
-```
 
-### For Faster Transcription (Recommended)
-
-Install `faster-whisper` for 4x faster transcription with live progress:
-
-```bash
+# For faster transcription (recommended, 4x faster):
 pip install faster-whisper
 ```
 
-> **Note:** Requires Python 3.11-3.13. If installation fails, standard Whisper will be used automatically.
-
-### Run the Server
+#### Run the Server
 
 ```bash
-cd webapp
-python server.py
+python webapp/server.py
 ```
 
 Open http://localhost:8000 in your browser.
+
+---
 
 ## How It Works
 
 1. **Upload** - Drop your Big Finish MP3 into the web interface
 2. **Transcribe** - Whisper AI generates timestamped transcript
-3. **Identify** - System searches 310 episodes to find a match
+3. **Identify** - System searches 287 stories to find a match
 4. **Align** - Matches transcript to official script (preserving proper punctuation)
 5. **Output** - WebVTT captions with speaker labels and accurate timing
 
@@ -78,21 +94,19 @@ After processing, you can:
 2. Go to Subtitle > Add Subtitle File
 3. Select the downloaded .vtt file
 
-## Project Structure
+---
 
-```
-bigfinish-captions/
-├── webapp/
-│   ├── server.py              # FastAPI backend
-│   └── static/index.html      # Web interface
-├── parsed_scripts/            # Script database (310 episodes)
-│   └── search_index.json      # Episode search index
-├── pipeline.py                # Main processing pipeline
-├── transcription_service.py   # Whisper integration
-├── episode_matcher.py         # Episode auto-detection
-├── alignment.py               # Script alignment algorithm
-└── requirements.txt
-```
+## Script Database
+
+| Metric | Count |
+|--------|-------|
+| Stories | 287 |
+| Main Range | 1-275 |
+| Special Releases | 12+ |
+
+Covers the Main Range (releases 1-275), Tenth Doctor Adventures, Companion Chronicles, and more.
+
+---
 
 ## Configuration
 
@@ -104,28 +118,38 @@ export OPENAI_API_KEY="sk-..."
 
 # Custom paths (defaults work for most setups)
 export SCRIPTS_DIR="./parsed_scripts"
-export SEARCH_INDEX="./parsed_scripts/search_index.json"
 ```
 
 ### Whisper Models
 
-By default, uses the `base` model. For better accuracy (slower):
+By default, uses the `small` model. For different accuracy/speed tradeoffs, edit `pipeline.py`:
 
-Edit `pipeline.py` line 60:
-```python
-whisper_model: str = "small"  # or "medium", "large"
-```
+| Model | Speed | Accuracy | VRAM |
+|-------|-------|----------|------|
+| tiny | Fastest | Lower | ~1GB |
+| base | Fast | Good | ~1GB |
+| small | Medium | Better | ~2GB |
+| medium | Slow | High | ~5GB |
+| large | Slowest | Highest | ~10GB |
 
-## Script Database
+---
 
-| Metric | Count |
-|--------|-------|
-| Scripts | 237 |
-| Episodes | 310 |
-| Parts | 1,093 |
-| Dialogue words | 6.4M |
+## Building the Installer
 
-Covers the Main Range, Eighth Doctor Adventures, and more.
+To build the Windows installer yourself:
+
+1. Install [Inno Setup 6](https://jrsoftware.org/isinfo.php)
+2. Run the preparation script:
+   ```cmd
+   cd installer
+   prepare_python.bat
+   ```
+3. Open `installer/setup.iss` in Inno Setup Compiler
+4. Click Compile
+
+See [`installer/BUILD.md`](installer/BUILD.md) for detailed instructions.
+
+---
 
 ## Troubleshooting
 
@@ -138,15 +162,22 @@ pip install faster-whisper
 
 ### "FFmpeg not found"
 Install FFmpeg and ensure it's in your PATH:
-- Windows: Download from ffmpeg.org, add bin folder to PATH
-- Mac: `brew install ffmpeg`
-- Linux: `sudo apt install ffmpeg`
+- **Windows:** Download from ffmpeg.org, add bin folder to PATH
+- **Mac:** `brew install ffmpeg`
+- **Linux:** `sudo apt install ffmpeg`
 
 ### Low confidence match
-If the episode isn't detected correctly, check that:
-- Audio is from the Main Range or 8th Doctor Adventures
-- Audio quality is reasonable
-- First 3 minutes contain recognizable dialogue
+If the episode isn't detected correctly:
+- Ensure audio is from a supported release
+- Check audio quality is reasonable
+- First 3 minutes should contain recognizable dialogue
+
+### GPU not detected (Windows Installer)
+- Ensure NVIDIA drivers are installed
+- The installer uses `nvidia-smi` to detect GPUs
+- CPU mode works on all systems, just slower
+
+---
 
 ## Privacy
 
@@ -156,8 +187,10 @@ If the episode isn't detected correctly, check that:
 
 ## License
 
-This tool is for personal accessibility use. It does not distribute copyrighted content.
+MIT License - see [LICENSE](LICENSE) for details.
+
+This tool is for personal accessibility use. It does not distribute copyrighted Big Finish content.
 
 ## Contributing
 
-Issues and pull requests welcome! See the GitHub issues for planned improvements.
+Issues and pull requests welcome! See the [GitHub issues](https://github.com/fransjorden/bigfinish-subtitler/issues) for planned improvements.

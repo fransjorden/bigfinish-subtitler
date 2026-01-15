@@ -126,15 +126,88 @@ async def list_stories():
     try:
         index = get_search_index()
 
-        stories = []
-        for script_id, script_info in index['scripts'].items():
-            stories.append({
-                'title': script_info['title'],
-                'release_number': script_info['release_number']
-            })
+        # Deduplicate by release number, picking the best title
+        by_release = {}
+        other_releases = []  # Non-main-range stories
 
-        # Sort by release number
+        # Titles to skip (generic/wrong titles from OCR)
+        bad_titles = {
+            'doctor who', 'docior who', 'doctdr who',
+            'episode one', 'episode two', 'episode three', 'episode four',
+            'a four-part story', 'a two-part story',
+            'dramatis personae', 'purity', 'the eternal',
+            'bi bic', 'donc iloik', 'by steve lyons',
+            'the doctor', 'the doctor peter davison',
+            'and other stories', 'iterstitial'
+        }
+
+        # Manual title fixes for known product codes
+        title_fixes = {
+            '10da1x1': 'Technophobia (10th Doctor)',
+            '10da1x2': 'Time Reaver (10th Doctor)',
+            '10da1x3': 'Death and the Queen (10th Doctor)',
+            'cc07x09': 'The Scorchies (Companion Chronicles)',
+            'cc10x01': 'The Mouthless Dead (Companion Chronicles)',
+            'cc10x02': 'The Story of Extinction (Companion Chronicles)',
+            'cc10x03': 'The Integral (Companion Chronicles)',
+            'cc10x04': 'The Edge (Companion Chronicles)',
+            'fp1x1': 'The Eleven-Day Empire (Faction Paradox)',
+            'fp1x2': 'The Shadow Play (Faction Paradox)',
+            'fp1x3': 'Sabbath Dei (Faction Paradox)',
+            'fp1x4': 'In the Year of the Cat (Faction Paradox)',
+            'fp1x5': 'Movers (Faction Paradox)',
+            'fp1x6': 'A Labyrinth of Histories (Faction Paradox)',
+            'bs03x2': 'The Green Eyed Monsters (Bernice Summerfield)',
+            'dw090a': 'Return of the Daleks',
+            'dw142a': 'The Four Doctors',
+            'dw155a': 'The Five Companions',
+            'dw168a': 'Night of the Stormcrow',
+            'dw181a': 'Trial of the Valeyard',
+            'sp 1.05': 'The Light at the End (50th Anniversary)',
+            'dalek empire 1&2': 'Dalek Empire (Series 1 & 2)',
+        }
+
+        for script_id, script_info in index['scripts'].items():
+            release = script_info['release_number']
+            title = script_info['title']
+            title_lower = title.lower().strip()
+
+            # Check for title fix
+            if title_lower in title_fixes:
+                title = title_fixes[title_lower]
+                title_lower = title.lower()
+
+            # Handle release 0 (special/non-main-range content)
+            if release == 0:
+                if title_lower not in bad_titles and title_lower not in [t.lower() for t in [o['title'] for o in other_releases]]:
+                    other_releases.append({'title': title, 'release_number': 0})
+                continue
+
+            # Skip bad titles
+            if title_lower in bad_titles:
+                continue
+
+            # If we already have this release, keep the better title
+            if release in by_release:
+                existing = by_release[release]
+                # Prefer longer titles (more descriptive) but not ALL CAPS
+                existing_score = len(existing) if not existing.isupper() else len(existing) * 0.5
+                new_score = len(title) if not title.isupper() else len(title) * 0.5
+                if new_score > existing_score:
+                    by_release[release] = title
+            else:
+                by_release[release] = title
+
+        stories = [
+            {'title': title, 'release_number': rel}
+            for rel, title in by_release.items()
+        ]
+
+        # Sort main range by release number
         stories.sort(key=lambda x: x['release_number'])
+
+        # Add other releases at the end
+        stories.extend(other_releases)
 
         return {"stories": stories, "total": len(stories)}
 
